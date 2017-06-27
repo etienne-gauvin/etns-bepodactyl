@@ -1,0 +1,147 @@
+
+.keyboard {
+	padding: 2rem 2rem 1rem;
+	background-color: $main;
+
+	form {
+		display: block;
+		margin-bottom: 1rem;
+
+		label {
+			input[type='radio'] {
+				display: none;
+
+				& + span {
+					font-size: x-small;
+					font-weight: bold;
+					text-transform: uppercase;
+					font-family: sans-serif;
+					margin-right: 1rem;
+					cursor: pointer;
+					padding: 0.2em 0.5em;
+					border-radius: 2px;
+					transition: 50ms linear;
+
+					background-color: $main-ll;
+					color: $main-dd;
+				}
+
+				&:not(:checked):focus + span,
+				&:not(:checked) + span:hover {
+					background-color: $main-lll;
+					color: $main-dddd;
+				}
+
+				&:checked + span {
+					background-color: $main-llll;
+					color: $main-dddd;
+				}
+			}
+		}
+	}
+
+	.line {
+		display: flex;
+		align-items: stretch;
+
+		.key, .space {
+			flex: 1;
+			display: block;
+			margin: 3px;
+		}
+
+		.space {
+		}
+
+		.key {
+    		border-radius: 2px;
+			text-align: center;
+			font-family: monospace;
+			font-weight: bold;
+			font-size: 1.3rem;
+			padding: 0.4rem 0;
+			position: relative;
+			top: 0px;
+
+			box-shadow: 0px 1px 0px 2px $main-d;
+			background-color: $main-l;
+			color: $main-ddd;
+
+			transition: 400ms ease-in-out;
+
+			&:before {
+				content: attr(data-plain);
+			}
+
+			&.available {
+				background-color: $main-ll;
+				box-shadow: 0px 1px 0px 2px $main-dd;
+				color: $main-ddd;
+			}
+
+			&.highlight {
+				box-shadow: 0px 1px 0px 2px $yellow-d;
+				background-color: $yellow;
+				color: $yellow-dd;
+			}
+
+			&:not(.available):not(.highlight) {
+				background-color: $main;
+				box-shadow: 0px 1px 0px 2px $main-d;
+				color: $main-dd;
+			}
+
+			&.down {
+				top: 2px;
+
+				transition-duration: 0ms;
+
+				box-shadow: 0px -1px 0px 2px $main-d;
+
+				&.available {
+					background-color: $main-ll;
+					box-shadow: 0px -1px 0px 2px $main-dd;
+					color: $main-ddddd;
+				}
+
+				&.highlight {
+					box-shadow: 0px -1px 0px 2px $yellow-d;
+					background-color: $yellow-lll;
+					color: $yellow-ddd;
+				}
+
+				&:not(.available):not(.highlight) {
+					background-color: $main-l;
+					box-shadow: 0px -1px 0px 2px $main-dd;
+					color: $main-dddd;
+				}
+			}
+		}
+	}
+
+	&.hidden {
+		form {
+			margin-bottom: 0;
+		}
+		.line {
+			display: none;
+		}
+	}
+
+	&.typematrix .classic,
+	&.classic .typematrix {
+		display: none;
+	}
+
+	&.ctrl .key:before {
+		content: attr(data-ctrl);
+	}
+
+	&.shift .key:before {
+		content: attr(data-shift);
+	}
+
+	&.ctrl.shift .key:before {
+		content: attr(data-ctrlshift);
+	}
+}

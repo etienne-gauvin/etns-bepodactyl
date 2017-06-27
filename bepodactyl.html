@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bépodactyl : Exercices d'apprentissage de la disposition BÉPO</title>
+    <link rel="stylesheet" type="text/css" href="build/main.css" />
+    <style>
+      .sentence > .correct {
+        background-color: green;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+
+      <header>
+        <h1>
+          Exercice
+          <span class="exercise-number">0</span>&nbsp;/&nbsp;<span class="exercise-count">0</span><br />
+          <span class='exercise-title'></span>
+        </h1>
+        <h2>
+          Phrase
+          <span class="sentence-number">0</span>&nbsp;/&nbsp;<span class="sentence-count">0</span>
+        </h2>
+        <p>
+          &#x21de; et &#x21df; (page précédente/suivante) pour changer d'exercice,<br />
+          &#x2191; et &#x2193; (touches fléchées) pour changer de phrase.
+        </p>
+      </header>
+
+      <p class="advice"></p>
+
+      <div class="sentence-container">
+        
+      </div>
+
+      <div class="press-button-info">
+        <span class="height-holder">–</span>
+
+        <div class="press-space-info">
+          Appuyez sur <span class="button-like">Espace</span> pour continuer
+        </div>
+
+        <div class="press-back-info">
+          Appuyez sur <span class="button-like"><em>&#x232b;</em> Supprimer</span> pour recommencer
+        </div>
+      </div>
+
+      <div class="keyboard">
+        <form>
+          <label>
+            <input type="radio" name="keyboard" value="typematrix" />
+            <span>TypeMatrix</span>
+          </label>
+          <label>
+            <input type="radio" name="keyboard" value="classic" />
+            <span>Classique</span>
+          </label>
+          <label>
+            <input type="radio" name="keyboard" value="hidden" />
+            <span>Pas de clavier</span>
+          </label>
+        </form>
+      </div>
+      
+      <div class="stats">
+        <p class="success">
+          <span>Succès</span>
+          <output>0</output>
+        </p>
+        <p class="errors">
+          <span>Erreurs</span>
+          <output>0</output>
+        </p>
+        <p class="speed">
+          <span>Vitesse</span>
+          <output title="Caractères par seconde">0.00</output>
+        </p>
+      </div>
+    </main>
+
+    <script src="./build/bundle.js"></script>
+  </body>
+</html>
+  

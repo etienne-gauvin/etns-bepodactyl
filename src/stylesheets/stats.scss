@@ -1,0 +1,46 @@
+.stats {
+	padding: 1rem 2rem 2rem;
+	display: flex;
+	justify-content: space-between;
+	color: $main-lll;
+	text-transform: uppercase;
+	font-size: normal;
+	font-weight: bold;
+
+	p {
+		flex: 1;
+		margin: 0 1rem;
+		text-align: center;
+
+		&:first-child {
+			text-align: left;
+			margin-left: 0;
+		}
+		
+		&:last-child {
+			text-align: right;
+			margin-right: 0;
+		}
+
+		&.speed output:before {
+			display: inline-block;
+			height: 1.2em;
+			line-height: 1.2em;
+			margin-right: 0.3em;
+		}
+	
+		&.speed output.paused:before {
+			content: "❚❚";
+		}
+	
+		&.speed output:not(.paused):before {
+			content: "►";
+		}
+		
+		output {
+			color: $main-lllll;
+			display: inline-block;
+		}
+
+	}
+}

@@ -1,0 +1,77 @@
+@import "colors.scss";
+@import "keyboard.scss";
+@import "press-button-info.scss";
+@import "sentence.scss";
+@import "chart.scss";
+@import "stats.scss";
+
+html, body {
+	background-color: $main-lllll;
+	padding: 0;
+	margin: 0;
+	font-family: sans-serif;
+}
+
+main {
+	width: 33%;
+	min-width: 36em;
+	margin: auto;
+	background-color: $main;
+}
+
+header {
+	padding: 2rem;
+	color: $white;
+
+	h1, h2 {
+		font-size: 1rem;
+		margin: 0;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: $main-lll;
+
+		span {
+			color: $main-llll;
+		}
+	}
+
+	h2 {
+		margin-top: 1rem;
+	}
+
+	button {
+		border: none;
+		background: none;
+		color: inherit;
+		display: inline;
+		font-size: inherit;
+		font-family: inherit;
+		cursor: pointer;
+		outline-color: $main-lllll;
+
+		&:hover, &:focus {
+			color: $main-lllll;
+		}
+	}
+
+	p {
+		font-size: small;
+		color: $main-lllll;
+		margin: 1rem 0 0;
+		font-family: sans-serif;
+		font-weight: bold;
+	}
+}
+
+
+
+.advice {
+	margin: 0;
+	background-color: darken($white, 10%);
+	padding: 1rem 2rem;
+	display: flex;
+	flex-direction: column;
+
+	font-family: serif;
+	color: lighten(black, 50%);
+}

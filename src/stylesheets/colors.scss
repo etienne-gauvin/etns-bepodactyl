@@ -1,0 +1,82 @@
+$cold: #0009C8;
+$hot: #FFEB7B;
+
+@function colder($color, $percentage: 5%, $colorStrength: 95%) {
+	@return darken(mix($color, $cold, $colorStrength), $percentage);
+}
+
+@function warmer($color, $percentage: 5%, $colorStrength: 95%) {
+	@return lighten(mix($color, $hot, $colorStrength), $percentage);
+}
+
+$blue: #2F85D5;
+
+$blue-d: colder($blue, 1%, 95%);
+$blue-dd: colder($blue-d, 1%);
+$blue-ddd: colder($blue-dd, 6%);
+$blue-dddd: colder($blue-ddd, 8%);
+$blue-ddddd: colder($blue-dddd, 10%);
+
+$blue-l: warmer($blue, 1%, 96%);
+$blue-ll: warmer($blue-l, 3%, 93%);
+$blue-lll: warmer($blue-ll);
+$blue-llll: warmer($blue-lll);
+$blue-lllll: warmer($blue-llll);
+
+$green: #5CD548;
+
+$green-d: colder($green, 1%, 95%);
+$green-dd: colder($green-d, 1%);
+$green-ddd: colder($green-dd, 6%);
+$green-dddd: colder($green-ddd, 8%);
+$green-ddddd: colder($green-dddd, 10%);
+
+$green-l: warmer($green, 1%, 96%);
+$green-ll: warmer($green-l, 3%, 93%);
+$green-lll: warmer($green-ll);
+$green-llll: warmer($green-lll);
+$green-lllll: warmer($green-llll);
+
+$red: #D54848;
+
+$red-d: colder($red, 1%, 95%);
+$red-dd: colder($red-d, 1%);
+$red-ddd: colder($red-dd, 6%);
+$red-dddd: colder($red-ddd, 8%);
+$red-ddddd: colder($red-dddd, 10%);
+
+$red-l: warmer($red, 1%, 96%);
+$red-ll: warmer($red-l, 3%, 93%);
+$red-lll: warmer($red-ll);
+$red-llll: warmer($red-lll);
+$red-lllll: warmer($red-llll);
+
+$yellow: #F6F326;
+
+$yellow-d: colder($yellow, 10%);
+$yellow-dd: colder($yellow-d, 10%);
+$yellow-ddd: colder($yellow-dd, 10%);
+
+$yellow-l: warmer($yellow);
+$yellow-ll: warmer($yellow-l);
+$yellow-lll: warmer($yellow-ll);
+
+$white: #FFFFFF;
+
+$white-d: colder($white);
+$white-dd: colder($white-d);
+$white-ddd: colder($white-dd);
+
+$main: $blue;
+
+$main-d: colder($main, 1%, 95%);
+$main-dd: colder($main-d, 1%);
+$main-ddd: colder($main-dd, 6%);
+$main-dddd: colder($main-ddd, 8%);
+$main-ddddd: colder($main-dddd, 10%);
+
+$main-l: warmer($main, 1%, 96%);
+$main-ll: warmer($main-l, 3%, 93%);
+$main-lll: warmer($main-ll);
+$main-llll: warmer($main-lll);
+$main-lllll: warmer($main-llll);

@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es6",
+        "allowJs": true,
+        "traceResolution": true
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

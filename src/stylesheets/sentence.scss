@@ -1,0 +1,156 @@
+.sentence-container {
+	background-color: $white;
+	padding: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	transition: 300ms ease-out;
+	transition-delay: 0s;
+
+	&:after {
+		display: block;
+		content: '✔';
+		font-size: 2rem;
+		color: white;
+		visibility: hidden;
+	}
+
+	&.correct {
+		background-color: $green-dd;
+		transition-delay: 0.5s;
+
+		.word.correct .letter.correct {
+			color: white;
+			transition: color 300ms ease-out;
+			transition-delay: 0.5s;
+		}
+
+		&:after {
+			visibility: visible;
+		}
+	}
+
+	.sentence {
+		font-family: serif;
+		font-size: 1.5rem;
+		margin: 0;
+
+		.word {
+			transition: 50ms linear;
+			background-color: rgba(white, 0);
+			outline: 2px solid rgba(white, 0);
+			position: relative;
+
+			@keyframes incorrect-feedback {
+				from { opacity: 0.3 }
+				to   { opacity: 1.0 }
+			}
+
+			&.incorrect {
+				color: $red-d;
+
+				&:after {
+					position: absolute;
+					font-size: 1rem;
+					font-weight: bold;
+					text-align: center;
+					width: 100%;
+					left: 0;
+					right: 0;
+					top: -0.6rem;
+					opacity: 0;
+					animation: incorrect-feedback 100ms linear alternate infinite;
+					content: '✘';
+					color: $red;
+					top: -0.6rem;
+					font-size: 2rem;
+				}
+			}
+
+			.letter {
+				position: relative;
+
+				@keyframes correct-letter-feedback {
+					from { opacity: 1; top: -1.2rem }
+					to   { opacity: 0; top: -1.4rem }
+				}
+
+				&.neutral {
+					color: black;
+				}
+
+				&.correct {
+					color: $green-dd;
+
+					&:after {
+						position: absolute;
+						font-size: 1rem;
+						font-weight: bold;
+						text-align: center;
+						width: 100%;
+						left: 0;
+						right: 0;
+						top: -0.6rem;
+						opacity: 0;
+						animation: correct-letter-feedback 150ms ease-in;
+						content: '✔';
+						color: $green;
+					}
+				}
+			}
+		}
+
+		.word.neutral {
+			color: #838383;
+
+			&.focused .letter.focused:not(.correct) {
+				color: black;
+				background-color: $yellow;
+				outline-color: $yellow;
+				border-radius: 0.5em;
+
+				@keyframes letter-focused-blink {
+					from { background-color: $yellow }
+					to   { background-color: rgba($yellow, .5) }
+				}
+
+				animation: 200ms letter-focused-blink linear alternate infinite;
+				animation-delay: 1s;
+			}
+		}
+
+		.word.correct {
+			color: $green-dd;
+			
+			@keyframes correct-word-feedback {
+				from {
+					color: $green-dddd;
+					outline: 3px solid $green-ll;
+					background-color: $green-ll;
+				}
+
+				60% {
+					color: $green-dddd;
+					outline: 3px solid $green-ll;
+					background-color: $green-ll;
+				}
+
+				to {
+					color: $green-dd;
+					outline: 3px solid transparent;
+					background-color: transparent;
+				}
+			}
+
+			&.focused + .space {
+				outline-color: $yellow;
+				background-color: $yellow;
+				border-radius: 0.5em;
+			}
+
+			&:not(:last-of-type) {
+				animation: correct-word-feedback 500ms;
+			}
+		}
+	}
+}

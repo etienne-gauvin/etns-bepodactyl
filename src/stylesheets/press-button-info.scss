@@ -1,0 +1,103 @@
+.press-button-info {
+	background-color: darken($white, 10%);
+	position: relative;
+	font-size: x-small;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-align: center;
+	padding: 0.5rem 0.5rem;
+	line-height: 1rem;
+
+	.height-holder {
+		visibility: hidden;
+	}
+
+	.press-space-info {
+		color: $yellow-dd;
+	}
+
+	.press-back-info {
+		color: $red-dd;
+	}
+
+	.press-space-info,
+	.press-back-info {
+		position: absolute;
+		top: 0.4rem;
+		left: 0;
+		right: 0;
+
+		opacity: 1;
+		transition: opacity 200ms;
+		transition-delay: 1s;
+
+		&:not(.visible) {
+			opacity: 0;
+			transition-delay: 0s;
+		}
+	}
+
+	.button-like {
+		@keyframes button-like {
+			from {
+				top: -1px;
+				box-shadow:
+					0 0 0 1px $yellow-d,
+					0 3px 0 0 $yellow-d;
+			}
+
+			to {
+				top: 1px;
+				box-shadow:
+					0 0 0 1px $yellow-d,
+					0 0px 0 0 $yellow-d;
+			}
+		}
+
+		margin: 0 0.2rem;
+		position: relative;
+		display: inline-block;
+		padding: 0.1rem 0.2rem;
+		border-radius: 2px;
+		background-color: $yellow-ll;
+		color: $yellow-dd;
+		animation: button-like 300ms linear alternate infinite;
+	}
+
+	.press-space-info .button-like {
+		padding: 0.1rem 0.5rem;
+		line-height: 0.8rem;
+	}
+
+	.press-back-info .button-like {
+		@keyframes button-back-like {
+			from {
+				top: -1px;
+				box-shadow:
+					0 0 0 1px $red-l,
+					0 3px 0 0 $red-l;
+			}
+
+			to {
+				top: 1px;
+				box-shadow:
+					0 0 0 1px $red-l,
+					0 0px 0 0 $red-l;
+			}
+		}
+
+		background-color: #e8d0c9;
+		color: $red-d;
+		padding: 0.1rem 0.2rem;
+		line-height: 0.8rem;
+		animation-name: button-back-like;
+
+		em {
+			font-weight: normal;
+			font-style: normal;
+			vertical-align: middle;
+			font-size: 0.8rem;
+		}
+	}
+}
