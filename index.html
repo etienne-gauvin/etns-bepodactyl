@@ -13,74 +13,90 @@
   </head>
 
   <body>
-    <main>
+    <div class="trunk">
+      <main>
 
-      <header>
-        <h1>
-          Exercice
-          <span class="exercise-number">0</span>&nbsp;/&nbsp;<span class="exercise-count">0</span><br />
-          <span class='exercise-title'></span>
-        </h1>
-        <h2>
-          Phrase
-          <span class="sentence-number">0</span>&nbsp;/&nbsp;<span class="sentence-count">0</span>
-        </h2>
-        <p>
-          &#x21de; et &#x21df; (page précédente/suivante) pour changer d'exercice,<br />
-          &#x2191; et &#x2193; (touches fléchées) pour changer de phrase.
-        </p>
-      </header>
+        <header>
+          <h1>
+            Exercice
+            <span class="exercise-number">0</span>&nbsp;/&nbsp;<span class="exercise-count">0</span><br />
+            <span class='exercise-title'></span>
+          </h1>
+          <h2>
+            Phrase
+            <span class="sentence-number">0</span>&nbsp;/&nbsp;<span class="sentence-count">0</span>
+          </h2>
+          <p>
+            &#x21de; et &#x21df; (page précédente/suivante) pour changer d'exercice,<br />
+            &#x2191; et &#x2193; (touches fléchées) pour changer de phrase.
+          </p>
+        </header>
 
-      <p class="advice"></p>
+        <p class="advice"></p>
 
-      <div class="sentence-container">
+        <div class="sentence-container">
+          
+        </div>
+
+        <div class="press-button-info">
+          <span class="height-holder">–</span>
+
+          <div class="press-space-info">
+            Appuyez sur <span class="button-like">Espace</span> pour continuer
+          </div>
+
+          <div class="press-back-info">
+            Appuyez sur <span class="button-like"><em>&#x232b;</em> Supprimer</span> pour recommencer
+          </div>
+        </div>
+
+        <div class="keyboard">
+          <form>
+            <label>
+              <input type="radio" name="keyboard" value="typematrix" />
+              <span>TypeMatrix</span>
+            </label>
+            <label>
+              <input type="radio" name="keyboard" value="classic" />
+              <span>Classique</span>
+            </label>
+            <label>
+              <input type="radio" name="keyboard" value="hidden" />
+              <span>Pas de clavier</span>
+            </label>
+          </form>
+        </div>
         
-      </div>
-
-      <div class="press-button-info">
-        <span class="height-holder">–</span>
-
-        <div class="press-space-info">
-          Appuyez sur <span class="button-like">Espace</span> pour continuer
+        <div class="stats">
+          <p class="success">
+            <span>Succès</span>
+            <output>0</output>
+          </p>
+          <p class="errors">
+            <span>Erreurs</span>
+            <output>0</output>
+          </p>
+          <p class="speed">
+            <span>Vitesse</span>
+            <output title="Caractères par seconde">0.00</output>
+          </p>
         </div>
+      </main>
 
-        <div class="press-back-info">
-          Appuyez sur <span class="button-like"><em>&#x232b;</em> Supprimer</span> pour recommencer
-        </div>
+      <div class="decoration-footer">
+        <div data-color="main-d5"></div>
+        <div data-color="main-d4"></div>
+        <div data-color="main-d3"></div>
+        <div data-color="main-d2"></div>
+        <div data-color="main-d1"></div>
+        <div data-color="main"></div>
+        <div data-color="main-l1"></div>
+        <div data-color="main-l2"></div>
+        <div data-color="main-l3"></div>
+        <div data-color="main-l4"></div>
+        <div data-color="main-l5"></div>
       </div>
-
-      <div class="keyboard">
-        <form>
-          <label>
-            <input type="radio" name="keyboard" value="typematrix" />
-            <span>TypeMatrix</span>
-          </label>
-          <label>
-            <input type="radio" name="keyboard" value="classic" />
-            <span>Classique</span>
-          </label>
-          <label>
-            <input type="radio" name="keyboard" value="hidden" />
-            <span>Pas de clavier</span>
-          </label>
-        </form>
-      </div>
-      
-      <div class="stats">
-        <p class="success">
-          <span>Succès</span>
-          <output>0</output>
-        </p>
-        <p class="errors">
-          <span>Erreurs</span>
-          <output>0</output>
-        </p>
-        <p class="speed">
-          <span>Vitesse</span>
-          <output title="Caractères par seconde">0.00</output>
-        </p>
-      </div>
-    </main>
+    </div>
 
     <script src="./build/bundle.js"></script>
   </body>

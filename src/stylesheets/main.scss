@@ -2,20 +2,23 @@
 @import "keyboard.scss";
 @import "press-button-info.scss";
 @import "sentence.scss";
-@import "chart.scss";
+//@import "chart.scss";
 @import "stats.scss";
 
 html, body {
-	background-color: $main-lllll;
+	background-color: $main-l5;
 	padding: 0;
 	margin: 0;
 	font-family: sans-serif;
 }
 
-main {
+.trunk {
 	width: 33%;
 	min-width: 36em;
 	margin: auto;
+}
+
+main {
 	background-color: $main;
 }
 
@@ -28,10 +31,10 @@ header {
 		margin: 0;
 		text-transform: uppercase;
 		letter-spacing: 1px;
-		color: $main-lll;
+		color: $main-l3;
 
 		span {
-			color: $main-llll;
+			color: $main-l4;
 		}
 	}
 
@@ -47,16 +50,16 @@ header {
 		font-size: inherit;
 		font-family: inherit;
 		cursor: pointer;
-		outline-color: $main-lllll;
+		outline-color: $main-l5;
 
 		&:hover, &:focus {
-			color: $main-lllll;
+			color: $main-l5;
 		}
 	}
 
 	p {
 		font-size: small;
-		color: $main-lllll;
+		color: $main-l5;
 		margin: 1rem 0 0;
 		font-family: sans-serif;
 		font-weight: bold;
@@ -67,11 +70,33 @@ header {
 
 .advice {
 	margin: 0;
-	background-color: darken($white, 10%);
+	background-color: $main-l3;
 	padding: 1rem 2rem;
 	display: flex;
 	flex-direction: column;
 
 	font-family: serif;
 	color: lighten(black, 50%);
+}
+
+.decoration-footer {
+	height: 2rem;
+	display: flex;
+	
+	& > * {
+		height: 2rem;
+		flex: 1;
+	}
+
+	[data-color="main-d5"] { background-color: $main-d5 }
+	[data-color="main-d4"] { background-color: $main-d4 }
+	[data-color="main-d3"] { background-color: $main-d3 }
+	[data-color="main-d2"] { background-color: $main-d2 }
+	[data-color="main-d1"] { background-color: $main-d1 }
+	[data-color="main"]    { background-color: $main }
+	[data-color="main-l1"] { background-color: $main-l1 }
+	[data-color="main-l2"] { background-color: $main-l2 }
+	[data-color="main-l3"] { background-color: $main-l3 }
+	[data-color="main-l4"] { background-color: $main-l4 }
+	[data-color="main-l5"] { background-color: $main-l5 }
 }

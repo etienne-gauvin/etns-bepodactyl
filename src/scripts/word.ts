@@ -1,120 +1,91 @@
-import { getPrevious, getNext } from './utils'
-import InputError from './input-error'
-import Session from './session'
-import Letter from './letter'
-import Status from './status'
-import Exercise from './exercise'
-import Sentence from './sentence'
+import { getNext, getPrevious } from "./utils";
+import Letter from "./letter";
+import Sentence from "./sentence";
 
 export default class Word {
-	
-	private readonly text: string
+  private readonly text: string;
 
-	public readonly sentence: Sentence
+  public readonly sentence: Sentence;
 
-	public readonly $: HTMLElement = document.createElement('span') as HTMLElement
-	
-	public readonly letters: Array<Letter> = []
-	
-	public constructor(text, sentence) {
-		
-		this.sentence = sentence
+  public readonly $: HTMLElement = document.createElement(
+    "span",
+  ) as HTMLElement;
 
-		this.text = text
+  public readonly letters: Letter[] = [];
 
-		this.$.classList.add('word', 'neutral')
+  public constructor(text: string, sentence: Sentence) {
+    this.sentence = sentence;
 
-		for (let i = 0; i < text.length; i ++) {
+    this.text = text;
 
-			const letter = new Letter(text[i], this)
-			this.letters.push(letter)
-			this.$.appendChild(letter.$)
+    this.$.classList.add("word", "neutral");
 
-		}
+    for (let i = 0; i < text.length; i++) {
+      const letter = new Letter(text[i], this);
+      this.letters.push(letter);
+      this.$.appendChild(letter.$);
+    }
+  }
 
-	}
+  public get correct(): boolean | null {
+    const notCorrectLetter = this.letters.find((letter: Letter) =>
+      !letter.correct
+    );
 
-	public get correct(): boolean|null {
-		
-		const notCorrectLetter = this.letters.find(letter => ! letter.correct)
+    return notCorrectLetter ? notCorrectLetter.correct : true;
+  }
 
-		return notCorrectLetter ? notCorrectLetter.correct : true
-		
-	}
-	
-	public get focused(): boolean {
-		
-		return this.sentence.exercise.session.word === this
+  public get focused(): boolean {
+    return this.sentence.exercise.session.word === this;
+  }
 
-	}
-	
-	public updateClassList() {
+  public updateClassList() {
+    const correct = this.correct;
 
-		const correct = this.correct
+    if (correct === true) {
+      this.$.classList.remove("incorrect", "neutral");
+      this.$.classList.add("correct");
 
-		if (correct === true) {
+      this.sentence.updateClassList();
+    } else if (correct === false) {
+      this.$.classList.remove("correct", "neutral");
+      this.$.classList.add("incorrect");
 
-			this.$.classList.remove('incorrect', 'neutral')
-			this.$.classList.add('correct')
+      this.sentence.updateClassList();
+    } else {
+      this.$.classList.remove("correct", "incorrect");
+      this.$.classList.add("neutral");
+    }
 
-			this.sentence.updateClassList()
+    if (this.focused) this.$.classList.add("focused");
+    else this.$.classList.remove("focused");
+  }
 
-		} else if (correct === false) {
+  public get neutral(): boolean {
+    return this.correct === null;
+  }
 
-			this.$.classList.remove('correct', 'neutral')
-			this.$.classList.add('incorrect')
+  public set neutral(neutral: boolean) {
+    if (!neutral) {
+      throw "The attribute 'neutral' cannot be set to false; use 'correct' instead.";
+    }
 
-			this.sentence.updateClassList()
+    this.letters.forEach((letter) => letter.neutral = true);
+  }
 
-		} else {
+  public get next(): Word {
+    return getNext(this.sentence.words, this) || this.sentence.next.words[0];
+  }
 
-			this.$.classList.remove('correct', 'incorrect')
-			this.$.classList.add('neutral')
+  public get previous(): Word {
+    const previous = getPrevious(this.sentence.words, this);
 
-		}
+    if (previous) {
+      return previous;
+    } else {
+      const words = this.sentence.previous.words;
 
-		if (this.focused) this.$.classList.add('focused')
-
-		else this.$.classList.remove('focused')
-
-	}
-	
-	public get neutral(): boolean {
-		
-		return this.correct === null
-		
-	}
-	
-	public set neutral(neutral: boolean) {
-
-		if (! neutral) throw "The attribute 'neutral' cannot be set to false; use 'correct' instead."
-		
-		this.letters.forEach(letter => letter.neutral = true)
-
-	}
-
-	public get next(): Word {
-
-		return getNext(this.sentence.words, this) || this.sentence.next.words[0] 
-
-	}
-
-	public get previous(): Word {
-
-		const previous = getPrevious(this.sentence.words, this)
-
-		if (previous) {
-
-			return previous
-
-		} else {
-
-			const words = this.sentence.previous.words
-
-			return words[words.length - 1]
-			
-		}
-
-	}
-
+      return words[words.length - 1];
+    }
+  }
 }

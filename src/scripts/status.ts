@@ -1,33 +1,24 @@
-
 export default class Status {
+  private value: string;
 
-	private value: string
+  private static all: { [key: string]: Status } = {};
 
-	private static all: {[key: string]: Status} = {}
+  private constructor(value: string) {
+    this.value = value;
 
-	private constructor(value: string) { 
+    Status.all[value] = this;
+  }
 
-		this.value = value
+  static Neutral: Status = new Status("neutral");
+  static Current: Status = new Status("current");
+  static Correct: Status = new Status("correct");
+  static Incorrect: Status = new Status("incorrect");
 
-		Status.all[value] = this
+  public toString(): string {
+    return this.value;
+  }
 
-	}
-
-	static Neutral: Status = new Status('neutral')
-	static Current: Status = new Status('current')
-	static Correct: Status = new Status('correct')
-	static Incorrect: Status = new Status('incorrect')
-
-	public toString(): string {
-
-		return this.value
-
-	}
-
-	public static fromString(value: string) {
-
-		return Status.all[value]
-
-	}
-
+  public static fromString(value: string) {
+    return Status.all[value];
+  }
 }

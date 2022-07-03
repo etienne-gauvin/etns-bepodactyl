@@ -1,115 +1,85 @@
-import { getPrevious, getNext } from './utils'
-import Session from './session'
-import Status from './status'
-import InputError from './input-error'
-import Word from './word'
+import { getNext, getPrevious } from "./utils";
+import Word from "./word";
 
 export default class Letter {
+  private _correct: boolean | null = null;
 
-	private _correct: boolean|null = null
+  public readonly word: Word;
 
-	public readonly word: Word
+  public readonly character: string;
 
-	public readonly character: string
+  public readonly $: HTMLElement = document.createElement(
+    "span",
+  ) as HTMLElement;
 
-	public readonly $: HTMLElement = document.createElement('span') as HTMLElement
-	
-	public firstTry: boolean = null
-	
-	public constructor(character: string, word: Word) {
-		
-		this.character = character
+  public firstTry: boolean = null;
 
-		this.word = word
-		
-		this.$.classList.add('letter', 'neutral')
-		this.$.appendChild(document.createTextNode(character))
+  public constructor(character: string, word: Word) {
+    this.character = character;
 
-	}
+    this.word = word;
 
-	public get correct(): boolean|null {
-		
-		return this._correct
-		
-	}
-	
-	public set correct(correct: boolean|null) {
+    this.$.classList.add("letter", "neutral");
+    this.$.appendChild(document.createTextNode(character));
+  }
 
-		if (correct === true) {
+  public get correct(): boolean | null {
+    return this._correct;
+  }
 
-			this.$.classList.remove('incorrect', 'neutral')
-			this.$.classList.add('correct')
+  public set correct(correct: boolean | null) {
+    if (correct === true) {
+      this.$.classList.remove("incorrect", "neutral");
+      this.$.classList.add("correct");
+    } else if (correct === false) {
+      this.$.classList.remove("correct", "neutral");
+      this.$.classList.add("incorrect");
+    } else {
+      this.$.classList.remove("correct", "incorrect");
+      this.$.classList.add("neutral");
+    }
 
-		} else if (correct === false) {
+    this._correct = correct;
 
-			this.$.classList.remove('correct', 'neutral')
-			this.$.classList.add('incorrect')
+    this.word.updateClassList();
+  }
 
-		} else {
+  public get neutral(): boolean {
+    return this._correct === null;
+  }
 
-			this.$.classList.remove('correct', 'incorrect')
-			this.$.classList.add('neutral')
+  public set neutral(neutral: boolean) {
+    if (!neutral) {
+      throw "The attribute 'neutral' cannot be set to false; use 'correct' instead.";
+    }
 
-		}
+    this.correct = null;
+  }
 
-		this._correct = correct
+  public get focused(): boolean {
+    return this.$.classList.contains("focused");
+  }
 
-		this.word.updateClassList()
+  public set focused(focused: boolean) {
+    if (focused) this.$.classList.add("focused");
+    else this.$.classList.remove("focused");
 
-	}
-	
-	public get neutral(): boolean {
-		
-		return this._correct === null
-		
-	}
-	
-	public set neutral(neutral: boolean) {
-		
-		if (! neutral) throw "The attribute 'neutral' cannot be set to false; use 'correct' instead."
-		
-		this.correct = null
+    this.word.updateClassList();
+  }
 
-	}
-	
-	public get focused(): boolean {
-		
-		return this.$.classList.contains('focused')
-		
-	}
-	
-	public set focused(focused: boolean) {
-		
-		if (focused) this.$.classList.add('focused')
+  public get next(): Letter {
+    return getNext(this.word.letters, this) || this.word.next.letters[0];
+  }
 
-		else this.$.classList.remove('focused')
+  public get previous(): Letter {
+    const previous = getPrevious(this.word.letters, this);
 
-		this.word.updateClassList()
+    if (previous) {
+      return previous;
+    } else {
+      const letters = this.word.previous.letters;
 
-	}
-	
-	public get next(): Letter {
-
-		return getNext(this.word.letters, this) || this.word.next.letters[0] 
-
-	}
-
-	public get previous(): Letter {
-
-		const previous = getPrevious(this.word.letters, this)
-
-		if (previous) {
-
-			return previous
-
-		} else {
-
-			const letters = this.word.previous.letters
-
-			return letters[letters.length - 1]
-			
-		}
-
-	}
-
+      return letters[letters.length - 1];
+    }
+  }
 }

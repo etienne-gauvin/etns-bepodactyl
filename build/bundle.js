@@ -1,88 +1,534 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
-"use strict";
+/***/ "./node_modules/events/events.js":
+/*!***************************************!*\
+  !*** ./node_modules/events/events.js ***!
+  \***************************************/
+/***/ ((module) => {
 
-Object.defineProperty(exports, "__esModule", { value: true });
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var R = typeof Reflect === 'object' ? Reflect : null
+var ReflectApply = R && typeof R.apply === 'function'
+  ? R.apply
+  : function ReflectApply(target, receiver, args) {
+    return Function.prototype.apply.call(target, receiver, args);
+  }
+
+var ReflectOwnKeys
+if (R && typeof R.ownKeys === 'function') {
+  ReflectOwnKeys = R.ownKeys
+} else if (Object.getOwnPropertySymbols) {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target)
+      .concat(Object.getOwnPropertySymbols(target));
+  };
+} else {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target);
+  };
+}
+
+function ProcessEmitWarning(warning) {
+  if (console && console.warn) console.warn(warning);
+}
+
+var NumberIsNaN = Number.isNaN || function NumberIsNaN(value) {
+  return value !== value;
+}
+
+function EventEmitter() {
+  EventEmitter.init.call(this);
+}
+module.exports = EventEmitter;
+module.exports.once = once;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._eventsCount = 0;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+var defaultMaxListeners = 10;
+
+function checkListener(listener) {
+  if (typeof listener !== 'function') {
+    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
+  }
+}
+
+Object.defineProperty(EventEmitter, 'defaultMaxListeners', {
+  enumerable: true,
+  get: function() {
+    return defaultMaxListeners;
+  },
+  set: function(arg) {
+    if (typeof arg !== 'number' || arg < 0 || NumberIsNaN(arg)) {
+      throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + '.');
+    }
+    defaultMaxListeners = arg;
+  }
+});
+
+EventEmitter.init = function() {
+
+  if (this._events === undefined ||
+      this._events === Object.getPrototypeOf(this)._events) {
+    this._events = Object.create(null);
+    this._eventsCount = 0;
+  }
+
+  this._maxListeners = this._maxListeners || undefined;
+};
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
+  if (typeof n !== 'number' || n < 0 || NumberIsNaN(n)) {
+    throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + '.');
+  }
+  this._maxListeners = n;
+  return this;
+};
+
+function _getMaxListeners(that) {
+  if (that._maxListeners === undefined)
+    return EventEmitter.defaultMaxListeners;
+  return that._maxListeners;
+}
+
+EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
+  return _getMaxListeners(this);
+};
+
+EventEmitter.prototype.emit = function emit(type) {
+  var args = [];
+  for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+  var doError = (type === 'error');
+
+  var events = this._events;
+  if (events !== undefined)
+    doError = (doError && events.error === undefined);
+  else if (!doError)
+    return false;
+
+  // If there is no 'error' event listener then throw.
+  if (doError) {
+    var er;
+    if (args.length > 0)
+      er = args[0];
+    if (er instanceof Error) {
+      // Note: The comments on the `throw` lines are intentional, they show
+      // up in Node's output if this results in an unhandled exception.
+      throw er; // Unhandled 'error' event
+    }
+    // At least give some kind of context to the user
+    var err = new Error('Unhandled error.' + (er ? ' (' + er.message + ')' : ''));
+    err.context = er;
+    throw err; // Unhandled 'error' event
+  }
+
+  var handler = events[type];
+
+  if (handler === undefined)
+    return false;
+
+  if (typeof handler === 'function') {
+    ReflectApply(handler, this, args);
+  } else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      ReflectApply(listeners[i], this, args);
+  }
+
+  return true;
+};
+
+function _addListener(target, type, listener, prepend) {
+  var m;
+  var events;
+  var existing;
+
+  checkListener(listener);
+
+  events = target._events;
+  if (events === undefined) {
+    events = target._events = Object.create(null);
+    target._eventsCount = 0;
+  } else {
+    // To avoid recursion in the case that type === "newListener"! Before
+    // adding it to the listeners, first emit "newListener".
+    if (events.newListener !== undefined) {
+      target.emit('newListener', type,
+                  listener.listener ? listener.listener : listener);
+
+      // Re-assign `events` because a newListener handler could have caused the
+      // this._events to be assigned to a new object
+      events = target._events;
+    }
+    existing = events[type];
+  }
+
+  if (existing === undefined) {
+    // Optimize the case of one listener. Don't need the extra array object.
+    existing = events[type] = listener;
+    ++target._eventsCount;
+  } else {
+    if (typeof existing === 'function') {
+      // Adding the second element, need to change to array.
+      existing = events[type] =
+        prepend ? [listener, existing] : [existing, listener];
+      // If we've already got an array, just append.
+    } else if (prepend) {
+      existing.unshift(listener);
+    } else {
+      existing.push(listener);
+    }
+
+    // Check for listener leak
+    m = _getMaxListeners(target);
+    if (m > 0 && existing.length > m && !existing.warned) {
+      existing.warned = true;
+      // No error code for this since it is a Warning
+      // eslint-disable-next-line no-restricted-syntax
+      var w = new Error('Possible EventEmitter memory leak detected. ' +
+                          existing.length + ' ' + String(type) + ' listeners ' +
+                          'added. Use emitter.setMaxListeners() to ' +
+                          'increase limit');
+      w.name = 'MaxListenersExceededWarning';
+      w.emitter = target;
+      w.type = type;
+      w.count = existing.length;
+      ProcessEmitWarning(w);
+    }
+  }
+
+  return target;
+}
+
+EventEmitter.prototype.addListener = function addListener(type, listener) {
+  return _addListener(this, type, listener, false);
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.prependListener =
+    function prependListener(type, listener) {
+      return _addListener(this, type, listener, true);
+    };
+
+function onceWrapper() {
+  if (!this.fired) {
+    this.target.removeListener(this.type, this.wrapFn);
+    this.fired = true;
+    if (arguments.length === 0)
+      return this.listener.call(this.target);
+    return this.listener.apply(this.target, arguments);
+  }
+}
+
+function _onceWrap(target, type, listener) {
+  var state = { fired: false, wrapFn: undefined, target: target, type: type, listener: listener };
+  var wrapped = onceWrapper.bind(state);
+  wrapped.listener = listener;
+  state.wrapFn = wrapped;
+  return wrapped;
+}
+
+EventEmitter.prototype.once = function once(type, listener) {
+  checkListener(listener);
+  this.on(type, _onceWrap(this, type, listener));
+  return this;
+};
+
+EventEmitter.prototype.prependOnceListener =
+    function prependOnceListener(type, listener) {
+      checkListener(listener);
+      this.prependListener(type, _onceWrap(this, type, listener));
+      return this;
+    };
+
+// Emits a 'removeListener' event if and only if the listener was removed.
+EventEmitter.prototype.removeListener =
+    function removeListener(type, listener) {
+      var list, events, position, i, originalListener;
+
+      checkListener(listener);
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      list = events[type];
+      if (list === undefined)
+        return this;
+
+      if (list === listener || list.listener === listener) {
+        if (--this._eventsCount === 0)
+          this._events = Object.create(null);
+        else {
+          delete events[type];
+          if (events.removeListener)
+            this.emit('removeListener', type, list.listener || listener);
+        }
+      } else if (typeof list !== 'function') {
+        position = -1;
+
+        for (i = list.length - 1; i >= 0; i--) {
+          if (list[i] === listener || list[i].listener === listener) {
+            originalListener = list[i].listener;
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0)
+          return this;
+
+        if (position === 0)
+          list.shift();
+        else {
+          spliceOne(list, position);
+        }
+
+        if (list.length === 1)
+          events[type] = list[0];
+
+        if (events.removeListener !== undefined)
+          this.emit('removeListener', type, originalListener || listener);
+      }
+
+      return this;
+    };
+
+EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+
+EventEmitter.prototype.removeAllListeners =
+    function removeAllListeners(type) {
+      var listeners, events, i;
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      // not listening for removeListener, no need to emit
+      if (events.removeListener === undefined) {
+        if (arguments.length === 0) {
+          this._events = Object.create(null);
+          this._eventsCount = 0;
+        } else if (events[type] !== undefined) {
+          if (--this._eventsCount === 0)
+            this._events = Object.create(null);
+          else
+            delete events[type];
+        }
+        return this;
+      }
+
+      // emit removeListener for all listeners on all events
+      if (arguments.length === 0) {
+        var keys = Object.keys(events);
+        var key;
+        for (i = 0; i < keys.length; ++i) {
+          key = keys[i];
+          if (key === 'removeListener') continue;
+          this.removeAllListeners(key);
+        }
+        this.removeAllListeners('removeListener');
+        this._events = Object.create(null);
+        this._eventsCount = 0;
+        return this;
+      }
+
+      listeners = events[type];
+
+      if (typeof listeners === 'function') {
+        this.removeListener(type, listeners);
+      } else if (listeners !== undefined) {
+        // LIFO order
+        for (i = listeners.length - 1; i >= 0; i--) {
+          this.removeListener(type, listeners[i]);
+        }
+      }
+
+      return this;
+    };
+
+function _listeners(target, type, unwrap) {
+  var events = target._events;
+
+  if (events === undefined)
+    return [];
+
+  var evlistener = events[type];
+  if (evlistener === undefined)
+    return [];
+
+  if (typeof evlistener === 'function')
+    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+
+  return unwrap ?
+    unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+}
+
+EventEmitter.prototype.listeners = function listeners(type) {
+  return _listeners(this, type, true);
+};
+
+EventEmitter.prototype.rawListeners = function rawListeners(type) {
+  return _listeners(this, type, false);
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  if (typeof emitter.listenerCount === 'function') {
+    return emitter.listenerCount(type);
+  } else {
+    return listenerCount.call(emitter, type);
+  }
+};
+
+EventEmitter.prototype.listenerCount = listenerCount;
+function listenerCount(type) {
+  var events = this._events;
+
+  if (events !== undefined) {
+    var evlistener = events[type];
+
+    if (typeof evlistener === 'function') {
+      return 1;
+    } else if (evlistener !== undefined) {
+      return evlistener.length;
+    }
+  }
+
+  return 0;
+}
+
+EventEmitter.prototype.eventNames = function eventNames() {
+  return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
+};
+
+function arrayClone(arr, n) {
+  var copy = new Array(n);
+  for (var i = 0; i < n; ++i)
+    copy[i] = arr[i];
+  return copy;
+}
+
+function spliceOne(list, index) {
+  for (; index + 1 < list.length; index++)
+    list[index] = list[index + 1];
+  list.pop();
+}
+
+function unwrapListeners(arr) {
+  var ret = new Array(arr.length);
+  for (var i = 0; i < ret.length; ++i) {
+    ret[i] = arr[i].listener || arr[i];
+  }
+  return ret;
+}
+
+function once(emitter, name) {
+  return new Promise(function (resolve, reject) {
+    function errorListener(err) {
+      emitter.removeListener(name, resolver);
+      reject(err);
+    }
+
+    function resolver() {
+      if (typeof emitter.removeListener === 'function') {
+        emitter.removeListener('error', errorListener);
+      }
+      resolve([].slice.call(arguments));
+    };
+
+    eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
+    if (name !== 'error') {
+      addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
+    }
+  });
+}
+
+function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
+  if (typeof emitter.on === 'function') {
+    eventTargetAgnosticAddListener(emitter, 'error', handler, flags);
+  }
+}
+
+function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
+  if (typeof emitter.on === 'function') {
+    if (flags.once) {
+      emitter.once(name, listener);
+    } else {
+      emitter.on(name, listener);
+    }
+  } else if (typeof emitter.addEventListener === 'function') {
+    // EventTarget does not have `error` event semantics like Node
+    // EventEmitters, we do not listen for `error` events here.
+    emitter.addEventListener(name, function wrapListener(arg) {
+      // IE does not have builtin `{ once: true }` support so we
+      // have to do it manually.
+      if (flags.once) {
+        emitter.removeEventListener(name, wrapListener);
+      }
+      listener(arg);
+    });
+  } else {
+    throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
+  }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/data.ts":
+/*!*****************************!*\
+  !*** ./src/scripts/data.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "data": () => (/* binding */ data)
+/* harmony export */ });
 const data = {
     "advices": [
         "Pour frapper les majuscules, utiliser l'auriculaire de la main opposée à celle qui tape la lettre. Ainsi, on doit utiliser l'auriculaire droit pour les majuscules AUIE et l'auriculaire gauche pour NRST.",
-        "Pour le M et le Z, l'auriculaire droit doit s'étendre hors de sa colonne. La virgule et le É doivent être fait avec l’index gauche.",
+        "Pour le M et le Z, l'auriculaire droit doit s'étendre hors de sa colonne. La virgule et le È doivent être faits avec l’index gauche.",
         "Le K et le point se font avec la main gauche. L'apostrophe et le Q se font avec la main droite. L'apostrophe nécessite d'étirer un peu plus l'index. Attention à ne pas confondre les deux ! Le principe est toujours le même :  la précision est bien plus importante que la rapidité.",
         "Attention, c’est bien l’annulaire gauche qui doit être utilisé pour faire le « Y » !",
         "L'accent circonflexe (en dessous du point d'exclamation) et le tréma (en AltGr+I) doivent être tapés seuls. Vous ne verrez rien, mais l'accent apparaîtra sur la voyelle tapée ensuite. Un subtilité pour Ê, qui peut être obtenu de deux façons :  par la 105ème touche du clavier Ê, ou avec l'accent circonflexe, puis le E.",
         "Une petite difficulté supplémentaire pour les deux points, le point-virgule, le point d'exclamation et le point d'interrogation qui doivent tous être précédés d'une espace insécable (représentée ici par « ␣ »), obtenue en maintenant la touche majuscule durant la frappe de l'espace. Conserver ensuite la touche majuscule appuyée pour la frappe du signe de ponctuation, qui est justement en majuscule lui-aussi. Ne pas oublier de relâcher avant la frappe de l'espace suivante.",
         "Une petite difficulté supplémentaire pour les guillemets ouverts qui doivent être suivis d'une espace insécable, ainsi que pour les guillemets fermés qui doivent être précédés d'une espace insécable, obtenue en maintenant la touche majuscule durant la frappe de l'espace.",
-        "En guise de conclusion, voici des exercices où, à chaque ligne, on trouve toutes les lettres de l’alphabet :  des pangrammes."
+        "En guise de conclusion, voici des exercices où, à chaque ligne, on trouve toutes les lettres de l’alphabet :  des pangrammes.",
     ],
     "exercises": [
         {
@@ -97,8 +543,8 @@ const data = {
                 "ane tate tante nana tata tete",
                 "tata et annette tannent ta tante",
                 "natte tentante et tente attenante",
-                "annette et tata tentent attentat en tente"
-            ]
+                "annette et tata tentent attentat en tente",
+            ],
         },
         {
             "title": "I et S (majeurs)",
@@ -115,8 +561,8 @@ const data = {
                 "sissi nantaise et titi sataniste naissent nantis",
                 "ni ses antennes ni ses tasses ne tentaient sa tante",
                 "annie est assise et anais a ses assiettes et ses tasses",
-                "anastasie tissait sa taie en satin et anne assistait assise en se taisant"
-            ]
+                "anastasie tissait sa taie en satin et anne assistait assise en se taisant",
+            ],
         },
         {
             "title": "U et R (annulaires)",
@@ -139,8 +585,8 @@ const data = {
                 "un artiste teint ses tartines et rature ses raies",
                 "en ratissant sa teinturerie sirius sent sa nature inerte",
                 "un assaut retentissant terrassa un tsar et instaura une terreur",
-                "un raisin rassis sustenterait un sarrasin sinistre et une tunisienne nantie en nuisette"
-            ]
+                "un raisin rassis sustenterait un sarrasin sinistre et une tunisienne nantie en nuisette",
+            ],
         },
         {
             "title": "V et O (index)",
@@ -156,8 +602,8 @@ const data = {
                 "Nous savonnerons notre ventouse et retournerons notre veste",
                 "Une voisine a vu un avion en ivoire et une voiture innovante",
                 "Nous arriverons en vitesse et nous nous enivrerons en vos vins",
-                "On va vers une aventure vaseuse si on avoue avoir vu son invention"
-            ]
+                "On va vers une aventure vaseuse si on avoue avoir vu son invention",
+            ],
         },
         {
             "title": "P et D (majeurs)",
@@ -171,8 +617,8 @@ const data = {
                 "Un oiseau de proie est souvent suspendu au dessus de terre",
                 "Nous adoptons une attitude positive et nions avoir pris du poids",
                 "Votre titre de transport apatride vous sera repris avant de sortir de notre avion",
-                "Nous avons pour ainsi dire perdu notre inspiration et repoussons notre dispensaire"
-            ]
+                "Nous avons pour ainsi dire perdu notre inspiration et repoussons notre dispensaire",
+            ],
         },
         {
             "title": "É et L (annulaires)",
@@ -187,8 +633,8 @@ const data = {
                 "Nous avons pu altérer les évolutions prévues de notre Étoile en étain",
                 "Le député et le président ont été élus suite au vote sans surprise de la droite",
                 "Alerté par la radio un adulte daltonien a pu délivrer le latéral droit de Lens",
-                "Une révolutionnaire esseulée est délaissée par les prisonniers dépassés par les événements"
-            ]
+                "Une révolutionnaire esseulée est délaissée par les prisonniers dépassés par les événements",
+            ],
         },
         {
             "title": "B et J (auriculaires), C (index droit)",
@@ -202,8 +648,8 @@ const data = {
                 "Bébé a avalé son jus de baies puis a beaucoup bavé",
                 "Le barbu a brutalisé un juré et la réponse du tribunal était terrible",
                 "Un bretteur battu a troublé les badauds obnubilés par son adresse au sabre",
-                "Jules abjura les jeunes et éblouit ses subordonnés débordants de jalousie"
-            ]
+                "Jules abjura les jeunes et éblouit ses subordonnés débordants de jalousie",
+            ],
         },
         {
             "title": ", et È (index gauche), M et Z (auriculaire droit)",
@@ -229,8 +675,8 @@ const data = {
                 "Vous lézardez au son de cet air de jazz",
                 "Vous venez de commander votre seizième pizza, elle sera très moelleuse",
                 "Ce zélote zozote mais reste zen en zippant son blouson",
-                "Les trapézistes volent, une dizaine de zèbres parcourent la piste, et douze lézards ramassent les restes"
-            ]
+                "Les trapézistes volent, une dizaine de zèbres parcourent la piste, et douze lézards ramassent les restes",
+            ],
         },
         {
             "title": "Ç et W",
@@ -246,8 +692,8 @@ const data = {
                 "Nous vous avons aperçus puis reçus, comme ça, sans attendre",
                 "Le caleçon du maçon se coinça dans un escalier en colimaçon mal conçu, alors il menaça de poinçonner son remplaçant déçu",
                 "Elle a conçu un brownie tout simplement sublime",
-                "Dans ce western, les cavaliers sont souvent désarçonnés"
-            ]
+                "Dans ce western, les cavaliers sont souvent désarçonnés",
+            ],
         },
         {
             "title": "K . ' et Q (index)",
@@ -270,8 +716,8 @@ const data = {
                 "J'ai acquis une belle aquarelle d'antiquaire, que je mettrai près de mon aquarium.",
                 "C'est dans la zone équatoriale que j'ai pu pratiquer l'équitation.",
                 "Cet ecclésiastique éloquent évoquait une escroquerie sans équivoque.",
-                "Je m'inquiète de ce qu'impliquent ces quatorze quatrains."
-            ]
+                "Je m'inquiète de ce qu'impliquent ces quatorze quatrains.",
+            ],
         },
         {
             "title": "X et G (majeurs)",
@@ -286,8 +732,8 @@ const data = {
                 "La gourmandise n'aide pas pour maigrir.",
                 "J'enrage car l'enregistrement que j'avais programmé a raté.",
                 "Mon garçon est ambidextre.",
-                "Avec mes index et mes majeurs, j'indexe des données qui avaient été annexées."
-            ]
+                "Avec mes index et mes majeurs, j'indexe des données qui avaient été annexées.",
+            ],
         },
         {
             "title": "Y et H (annulaires)",
@@ -299,8 +745,8 @@ const data = {
                 "C'est avec du rythme que le saxophoniste et le psychiatre joueur de synthé pourront se synchroniser.",
                 "Un asthmatique en crise présente une inspiration maximale qui abaisse le diaphragme, repousse les abdominaux et gonfle le thorax.",
                 "Je suis chez ce cher Serge, cherchant des chers cierges, assis sur des chers sièges.",
-                "Le chiche, son chicha et son chien sont souvent chez Sanson ou chez Charles sans se soucier de sa sécheuse sèche."
-            ]
+                "Le chiche, son chicha et son chien sont souvent chez Sanson ou chez Charles sans se soucier de sa sécheuse sèche.",
+            ],
         },
         {
             "title": "À et F (auriculaires)",
@@ -310,8 +756,8 @@ const data = {
                 "Pif, paf, pouf.",
                 "Et voilà, on a fait le tour de toutes les touches.",
                 "Le bépo, c'est facile, finalement.",
-                "À partir de maintenant, il suffira de faire quelques derniers petits efforts."
-            ]
+                "À partir de maintenant, il suffira de faire quelques derniers petits efforts.",
+            ],
         },
         {
             "title": "Accents morts ^ et ¨ (Ê, Î, Û, Â, Ô, Ï, Ä)",
@@ -327,8 +773,8 @@ const data = {
                 "Le canoë est emporté dans un maelström.",
                 "C'est la belle nuit de Noël.",
                 "Ma trisaïeule hébraïque raffole de l'aïoli.",
-                "Les paranoïaques poussent des cris suraigüs."
-            ]
+                "Les paranoïaques poussent des cris suraigüs.",
+            ],
         },
         {
             "title": "Touches en AltGr (Ù, Œ, Æ)",
@@ -340,8 +786,8 @@ const data = {
                 "Et cætera.",
                 "Lætitia et Éric sont arrivés ex æquo.",
                 "Où qu'il soit, il y est.",
-                "Je ne sais où ni quand."
-            ]
+                "Je ne sais où ni quand.",
+            ],
         },
         {
             "title": "Tiret et point d'interrogation (avec espace insécable)",
@@ -353,8 +799,8 @@ const data = {
                 "Que se passe-t-il ?",
                 "Qu'est-il arrivé ?",
                 "Qu'y a-t-il ?",
-                "Peut-être est-il trop tard."
-            ]
+                "Peut-être est-il trop tard.",
+            ],
         },
         {
             "title": "Ponctuation double ( :  !) et espace insécable",
@@ -362,23 +808,23 @@ const data = {
             "advice": 5,
             "sentences": [
                 "Et revoilà la sous-préfète !",
-                "La voilà  elle arrive !"
-            ]
+                "La voilà  elle arrive !",
+            ],
         },
         {
             "title": "Parenthèses",
             "letters": "()",
             "sentences": [
-                "World Wide Web (www)"
-            ]
+                "World Wide Web (www)",
+            ],
         },
         {
             "title": "Guillemets",
             "letters": "«»",
             "advice": 6,
             "sentences": [
-                "la Haute Autorité pour la Diffusion des Œuvres et la Protection des Droits sur Internet ou « HADOPI »"
-            ]
+                "la Haute Autorité pour la Diffusion des Œuvres et la Protection des Droits sur Internet ou « HADOPI »",
+            ],
         },
         {
             "title": "Pangrammes",
@@ -397,8 +843,8 @@ const data = {
                 "Ketch, yawl, jonque flambant neuve… jugez des prix !",
                 "Vieux pelage que je modifie :  breitschwanz ou yak ?",
                 "Prouvez, beau juge, que le fameux sandwich au yak tue.",
-                "Voyez ce jeu exquis wallon, de graphie en kit mais bref."
-            ]
+                "Voyez ce jeu exquis wallon, de graphie en kit mais bref.",
+            ],
         },
         {
             "title": "Pangrammes accentués",
@@ -410,73 +856,602 @@ const data = {
                 "Voyez le brick géant que j'examine près du wharf.",
                 "Bâchez la queue du wagon-taxi avec les pyjamas du fakir.",
                 "Mon pauvre zébu ankylosé choque deux fois ton wagon jaune.",
-                "Voix ambiguë d'un cœur qui, au zéphyr, préfère les jattes de kiwis."
-            ]
-        }
-    ]
+                "Voix ambiguë d'un cœur qui, au zéphyr, préfère les jattes de kiwis.",
+            ],
+        },
+    ],
 };
-exports.data = data;
+
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/***/ "./src/scripts/event-emitter.ts":
+/*!**************************************!*\
+  !*** ./src/scripts/event-emitter.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const EventEmitter = __webpack_require__(10);
-const stats_handler_1 = __webpack_require__(9);
-const exercise_1 = __webpack_require__(2);
-const keyboard_1 = __webpack_require__(3);
-const data_1 = __webpack_require__(0);
-const utils_1 = __webpack_require__(8);
-class Session extends EventEmitter {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EventEmitter)
+/* harmony export */ });
+class EventEmitter {
+    constructor() {
+        this.events = new Map();
+    }
+    on(event, listener) {
+        if (!this.events.has(event)) {
+            this.events.set(event, new Set());
+        }
+        this.events.get(event).add(listener);
+    }
+    removeListener(event, listener) {
+        if (this.events.has(event)) {
+            this.events.get(event).delete(listener);
+        }
+    }
+    emit(event, ...args) {
+        if (this.events.has(event)) {
+            for (const listener of this.events.get(event)) {
+                listener.apply(this, args);
+            }
+        }
+    }
+    once(event, listener) {
+        this.on(event, function fn(...args) {
+            this.removeListener(event, fn);
+            listener.apply(this, args);
+        });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/exercise.ts":
+/*!*********************************!*\
+  !*** ./src/scripts/exercise.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Exercise)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.ts");
+/* harmony import */ var _sentence__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sentence */ "./src/scripts/sentence.ts");
+
+
+class Exercise {
+    constructor(id, data, session) {
+        this.sentences = [];
+        this.id = id;
+        this.session = session;
+        this.title = data.title;
+        this.letters = data.letters;
+        this.advice = data.advice !== null
+            ? this.session.data.advices[data.advice]
+            : null;
+        data.sentences.forEach((text, id) => this.sentences.push(new _sentence__WEBPACK_IMPORTED_MODULE_1__["default"](id, text, this)));
+    }
+    get correct() {
+        const notCorrectSentence = this.sentences.find((sentence) => !sentence.correct);
+        return notCorrectSentence ? notCorrectSentence.correct : true;
+    }
+    get next() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNext)(this.session.exercises, this) || this.session.exercises[0];
+    }
+    get previous() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getPrevious)(this.session.exercises, this) ||
+            this.session.exercises[this.session.exercises.length - 1];
+    }
+    get index() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getIndex)(this.session.exercises, this);
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/keyboard-config.ts":
+/*!****************************************!*\
+  !*** ./src/scripts/keyboard-config.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KEYS": () => (/* binding */ KEYS)
+/* harmony export */ });
+const isKey = true;
+const isSpace = true;
+const KEYS = [
+    [
+        { isKey, default: "$", shift: "#", ctrl: "–", ctrlshift: " " },
+        { isKey, default: '"', shift: "1", ctrl: "—", ctrlshift: "„" },
+        { isKey, default: "«", shift: "2", ctrl: "<", ctrlshift: "“" },
+        { isKey, default: "»", shift: "3", ctrl: ">", ctrlshift: "”" },
+        { isKey, default: "(", shift: "4", ctrl: "[", ctrlshift: "≤" },
+        { isKey, default: ")", shift: "5", ctrl: "]", ctrlshift: "≥" },
+        { isSpace, width: 1, variant: "typematrix" },
+        { isKey, default: "@", shift: "6", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "+", shift: "7", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "-", shift: "8", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "/", shift: "9", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "*", shift: "0", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "=", shift: "°", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "%", shift: "`", ctrl: " ", ctrlshift: " " },
+        { isSpace, width: 0.67, variant: "classic" },
+    ],
+    [
+        { isSpace, width: 1, variant: "typematrix" },
+        { isSpace, width: 1.33, variant: "classic" },
+        { isKey, default: "b", shift: "B", ctrl: "|", ctrlshift: " " },
+        { isKey, default: "é", shift: "É", ctrl: " ", ctrlshift: "˝" },
+        { isKey, default: "p", shift: "P", ctrl: "&", ctrlshift: " " },
+        { isKey, default: "o", shift: "O", ctrl: "œ", ctrlshift: "Œ" },
+        { isKey, default: "è", shift: "È", ctrl: " ", ctrlshift: " " },
+        { isSpace, width: 1, variant: "typematrix" },
+        { isKey, default: "^", shift: "!", ctrl: "¡", ctrlshift: " " },
+        { isKey, default: "v", shift: "V", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "d", shift: "D", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "l", shift: "L", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "j", shift: "J", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "z", shift: "Z", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "w", shift: "W", ctrl: " ", ctrlshift: " " },
+        { isSpace, width: 0.34, variant: "classic" },
+    ],
+    [
+        { isSpace, width: 1, variant: "typematrix" },
+        { isSpace, width: 1.66, variant: "classic" },
+        { isKey, default: "a", shift: "A", ctrl: "æ", ctrlshift: "Æ" },
+        { isKey, default: "u", shift: "U", ctrl: "ù", ctrlshift: "Ù" },
+        { isKey, default: "i", shift: "I", ctrl: "¨", ctrlshift: " " },
+        { isKey, default: "e", shift: "E", ctrl: "€", ctrlshift: " " },
+        { isKey, default: ",", shift: ";", ctrl: "’", ctrlshift: " " },
+        { isSpace, width: 1, variant: "typematrix" },
+        { isKey, default: "c", shift: "C", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "t", shift: "T", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "s", shift: "S", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "r", shift: "R", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "n", shift: "N", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "m", shift: "M", ctrl: " ", ctrlshift: " " },
+        {
+            isKey,
+            default: "ç",
+            shift: "Ç",
+            ctrl: " ",
+            ctrlshift: " ",
+            variant: "classic",
+        },
+        { isSpace, width: 1, variant: "typematrix" },
+    ],
+    [
+        { isSpace, width: 1 },
+        {
+            isKey,
+            default: "ê",
+            shift: "Ê",
+            ctrl: " ",
+            ctrlshift: " ",
+            variant: "classic",
+            dotted: true,
+        },
+        { isKey, default: "à", shift: "À", ctrl: "\\", ctrlshift: " " },
+        { isKey, default: "y", shift: "Y", ctrl: "{", ctrlshift: "‘" },
+        { isKey, default: "x", shift: "X", ctrl: "}", ctrlshift: "’" },
+        { isKey, default: ".", shift: ":", ctrl: "…", ctrlshift: "·" },
+        { isKey, default: "k", shift: "K", ctrl: " ", ctrlshift: " " },
+        { isSpace, width: 1, variant: "typematrix" },
+        { isKey, default: "'", shift: "?", ctrl: "¿", ctrlshift: " " },
+        { isKey, default: "q", shift: "Q", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "g", shift: "G", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "h", shift: "H", ctrl: " ", ctrlshift: " " },
+        { isKey, default: "f", shift: "F", ctrl: " ", ctrlshift: " " },
+        {
+            isKey,
+            default: "ç",
+            shift: "Ç",
+            ctrl: " ",
+            ctrlshift: " ",
+            variant: "typematrix",
+        },
+        { isSpace, width: 1.67, variant: "classic" },
+        { isSpace, width: 1, variant: "typematrix" },
+    ],
+];
+
+
+/***/ }),
+
+/***/ "./src/scripts/keyboard.ts":
+/*!*********************************!*\
+  !*** ./src/scripts/keyboard.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KeyboardDisplay": () => (/* binding */ KeyboardDisplay),
+/* harmony export */   "default": () => (/* binding */ Keyboard)
+/* harmony export */ });
+/* harmony import */ var _keyboard_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./keyboard-config */ "./src/scripts/keyboard-config.ts");
+
+var KeyboardDisplay;
+(function (KeyboardDisplay) {
+    KeyboardDisplay["TypeMatrix"] = "typematrix";
+    KeyboardDisplay["Classic"] = "classic";
+    KeyboardDisplay["Hidden"] = "hidden";
+})(KeyboardDisplay || (KeyboardDisplay = {}));
+class Keyboard {
+    constructor($, session, variant) {
+        this.$ = $;
+        this.session = session;
+        this.keys = [];
+        this.$inputs = {
+            typematrix: this.$.querySelector('[name="keyboard"][value="typematrix"]'),
+            classic: this.$.querySelector('[name="keyboard"][value="classic"]'),
+            hidden: this.$.querySelector('[name="keyboard"][value="hidden"]'),
+        };
+        this.session = session;
+        this.variant = variant;
+        this.hidden = !!this.session.cookies.keyboardHidden;
+        this.$inputs.typematrix.addEventListener("change", () => {
+            this.hidden = false;
+            this.variant = KeyboardDisplay.TypeMatrix;
+        });
+        this.$inputs.classic.addEventListener("change", () => {
+            this.hidden = false;
+            this.variant = KeyboardDisplay.Classic;
+        });
+        this.$inputs.hidden.addEventListener("change", () => this.hidden = !this.hidden);
+        _keyboard_config__WEBPACK_IMPORTED_MODULE_0__.KEYS.forEach((line) => {
+            const $line = document.createElement("div");
+            $line.className = "line";
+            this.$.appendChild($line);
+            line.forEach((keyOrSpace) => {
+                var _a, _b, _c, _d, _e;
+                if ("isSpace" in keyOrSpace) {
+                    const space = keyOrSpace;
+                    const $space = document.createElement("div");
+                    $space.className = "space";
+                    if (space.variant)
+                        $space.classList.add(space.variant);
+                    $space.style.flexGrow = `${space.width}`;
+                    $line.appendChild($space);
+                }
+                else if ("isKey" in keyOrSpace) {
+                    const key = {
+                        default: (_a = keyOrSpace.default) !== null && _a !== void 0 ? _a : "",
+                        ctrl: (_b = keyOrSpace.ctrl) !== null && _b !== void 0 ? _b : "",
+                        shift: (_c = keyOrSpace.shift) !== null && _c !== void 0 ? _c : "",
+                        ctrlshift: (_d = keyOrSpace.ctrlshift) !== null && _d !== void 0 ? _d : "",
+                        dotted: (_e = keyOrSpace.dotted) !== null && _e !== void 0 ? _e : false,
+                        variant: keyOrSpace.variant,
+                        $: document.createElement("div"),
+                        chars: "",
+                    };
+                    key.$.className = "key";
+                    if (key.variant)
+                        key.$.classList.add(key.variant);
+                    key.chars = [key.default, key.ctrl, key.shift, key.ctrlshift].filter((c) => c).join('');
+                    key.$.setAttribute("data-plain", key.default);
+                    key.$.setAttribute("data-ctrl", key.ctrl);
+                    key.$.setAttribute("data-shift", key.shift);
+                    key.$.setAttribute("data-ctrlshift", key.ctrlshift);
+                    $line.appendChild(key.$);
+                    this.keys.push(key);
+                }
+            });
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Control" || event.key === "AltGr") {
+                this.$.classList.add("ctrl");
+            }
+            if (event.key === "Shift")
+                this.$.classList.add("shift");
+            this.keys.forEach((key) => {
+                if (key.chars.includes(event.key) && event.key !== " ") {
+                    key.$.classList.add("down");
+                }
+            });
+        });
+        document.addEventListener("keyup", (event) => {
+            if (event.key === "Control" || event.key === "AltGr") {
+                this.$.classList.remove("ctrl");
+            }
+            if (event.key === "Shift")
+                this.$.classList.remove("shift");
+            for (const key of this.keys) {
+                if (key.chars.includes(event.key) && event.key !== " ") {
+                    key.$.classList.remove("down");
+                }
+            }
+        });
+        session.on("exercise-changed", (currentExercise) => {
+            const lettersOfPreviousExercises = session.exercises
+                .slice(0, session.exercises.indexOf(currentExercise))
+                .map((exercise) => exercise.letters)
+                .join('');
+            this.highlight(currentExercise.letters, lettersOfPreviousExercises);
+        });
+    }
+    get hidden() {
+        return this.$.classList.contains("hidden");
+    }
+    set hidden(hidden) {
+        if (hidden)
+            this.$.classList.add("hidden");
+        else
+            this.$.classList.remove("hidden");
+        if (hidden) {
+            this.$inputs.typematrix.checked = false;
+            this.$inputs.classic.checked = false;
+            this.$inputs.hidden.checked = true;
+        }
+        else {
+            this.$inputs.hidden.checked = false;
+        }
+        this.session.cookies.keyboardHidden = hidden;
+    }
+    get variant() {
+        if (this.$inputs.typematrix.checked) {
+            return KeyboardDisplay.TypeMatrix;
+        }
+        else if (this.$inputs.classic.checked) {
+            return KeyboardDisplay.Classic;
+        }
+        else {
+            return KeyboardDisplay.Hidden;
+        }
+    }
+    set variant(variant) {
+        this.$inputs.typematrix.checked = false;
+        this.$inputs.classic.checked = false;
+        this.$inputs.hidden.checked = false;
+        this.$inputs[variant].checked = true;
+        this.$.classList.remove("typematrix", "classic");
+        this.$.classList.add(variant);
+        this.session.cookies.keyboardVariant = variant;
+    }
+    highlight(characters, availableCharacters = "") {
+        console.log('highlight', { characters, availableCharacters });
+        for (const key of this.keys) {
+            key.$.classList.remove("highlight", "available");
+            for (const char of availableCharacters) {
+                if (key.chars.includes(char)) {
+                    key.$.classList.add("available");
+                    break;
+                }
+            }
+            for (const char of characters) {
+                if (key.chars.includes(char) && char !== " ") {
+                    key.$.classList.add("highlight", "available");
+                }
+            }
+        }
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/letter.ts":
+/*!*******************************!*\
+  !*** ./src/scripts/letter.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Letter)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.ts");
+
+class Letter {
+    constructor(character, word) {
+        this._correct = null;
+        this.$ = document.createElement("span");
+        this.firstTry = null;
+        this.character = character;
+        this.word = word;
+        this.$.classList.add("letter", "neutral");
+        this.$.appendChild(document.createTextNode(character));
+    }
+    get correct() {
+        return this._correct;
+    }
+    set correct(correct) {
+        if (correct === true) {
+            this.$.classList.remove("incorrect", "neutral");
+            this.$.classList.add("correct");
+        }
+        else if (correct === false) {
+            this.$.classList.remove("correct", "neutral");
+            this.$.classList.add("incorrect");
+        }
+        else {
+            this.$.classList.remove("correct", "incorrect");
+            this.$.classList.add("neutral");
+        }
+        this._correct = correct;
+        this.word.updateClassList();
+    }
+    get neutral() {
+        return this._correct === null;
+    }
+    set neutral(neutral) {
+        if (!neutral) {
+            throw "The attribute 'neutral' cannot be set to false; use 'correct' instead.";
+        }
+        this.correct = null;
+    }
+    get focused() {
+        return this.$.classList.contains("focused");
+    }
+    set focused(focused) {
+        if (focused)
+            this.$.classList.add("focused");
+        else
+            this.$.classList.remove("focused");
+        this.word.updateClassList();
+    }
+    get next() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNext)(this.word.letters, this) || this.word.next.letters[0];
+    }
+    get previous() {
+        const previous = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getPrevious)(this.word.letters, this);
+        if (previous) {
+            return previous;
+        }
+        else {
+            const letters = this.word.previous.letters;
+            return letters[letters.length - 1];
+        }
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/sentence.ts":
+/*!*********************************!*\
+  !*** ./src/scripts/sentence.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Sentence)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.ts");
+/* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./word */ "./src/scripts/word.ts");
+
+
+class Sentence {
+    constructor(id, text, exercise) {
+        this.words = [];
+        this.$ = document.createElement("p");
+        this.id = id;
+        this.exercise = exercise;
+        this.$.classList.add("sentence");
+        const wordStrings = text.split(" ");
+        wordStrings.forEach((wordString, i) => {
+            const word = new _word__WEBPACK_IMPORTED_MODULE_1__["default"](wordString, this);
+            this.words.push(word);
+            this.$.appendChild(word.$);
+            if (i < wordStrings.length - 1) {
+                const $space = document.createElement("span");
+                $space.appendChild(document.createTextNode(" "));
+                $space.classList.add("space");
+                this.$.appendChild($space);
+            }
+        });
+    }
+    get correct() {
+        const notCorrectWord = this.words.find((word) => !word.correct);
+        return notCorrectWord ? notCorrectWord.correct : true;
+    }
+    updateClassList() {
+        const correct = this.correct;
+        if (this.$.parentElement) {
+            if (correct === true) {
+                this.$.parentElement.classList.add("correct");
+            }
+            else {
+                this.$.parentElement.classList.remove("correct");
+            }
+        }
+    }
+    get next() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNext)(this.exercise.sentences, this) ||
+            this.exercise.next.sentences[0];
+    }
+    get previous() {
+        const previous = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getPrevious)(this.exercise.sentences, this);
+        if (previous) {
+            return previous;
+        }
+        else {
+            const sentences = this.exercise.previous.sentences;
+            return sentences[sentences.length - 1];
+        }
+    }
+    get index() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getIndex)(this.exercise.sentences, this);
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/scripts/session.ts":
+/*!********************************!*\
+  !*** ./src/scripts/session.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Session)
+/* harmony export */ });
+/* harmony import */ var events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! events */ "./node_modules/events/events.js");
+/* harmony import */ var events__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(events__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _stats_handler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stats-handler */ "./src/scripts/stats-handler.ts");
+/* harmony import */ var _exercise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./exercise */ "./src/scripts/exercise.ts");
+/* harmony import */ var _keyboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./keyboard */ "./src/scripts/keyboard.ts");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./data */ "./src/scripts/data.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.ts");
+
+
+
+
+
+
+class Session extends events__WEBPACK_IMPORTED_MODULE_0__ {
     constructor() {
         super();
         this.exercises = [];
-        this.$ = document.querySelector('main');
-        this.$output = this.$.querySelector('.sentence-container');
-        this.data = data_1.data;
-        this.cookies = utils_1.CookiesHandler.instance.cookies;
-        this.stats = new stats_handler_1.default(this);
-        this.keyboard = new keyboard_1.default(this, this.cookies.keyboardVariant);
+        this.$ = document.querySelector("main");
+        this.$output = this.$.querySelector(".sentence-container");
+        this.data = _data__WEBPACK_IMPORTED_MODULE_4__.data;
+        this.cookies = _utils__WEBPACK_IMPORTED_MODULE_5__.CookiesHandler.instance.cookies;
+        this.stats = new _stats_handler__WEBPACK_IMPORTED_MODULE_1__["default"](this);
+        const variant = Object.values(_keyboard__WEBPACK_IMPORTED_MODULE_3__.KeyboardDisplay).includes(this.cookies.keyboardVariant) ? this.cookies.keyboardVariant : _keyboard__WEBPACK_IMPORTED_MODULE_3__.KeyboardDisplay.Classic;
+        this.keyboard = new _keyboard__WEBPACK_IMPORTED_MODULE_3__["default"](document.querySelector(".keyboard"), this, variant);
         this.data.exercises.forEach((exerciseData, id) => {
-            this.exercises.push(new exercise_1.default(id, exerciseData, this));
+            this.exercises.push(new _exercise__WEBPACK_IMPORTED_MODULE_2__["default"](id, exerciseData, this));
         });
-        this.$.querySelector('header .exercise-count').innerHTML = `${this.exercises.length}`;
+        this.$.querySelector("header .exercise-count").innerHTML =
+            `${this.exercises.length}`;
         this.onKeyDown = this.onKeyDown.bind(this);
-        window.addEventListener('keydown', this.onKeyDown);
-        this.exercise = this.exercises[this.cookies.exercise || 0];
-        this.sentence = this.exercise.sentences[this.cookies.sentence || 0];
-        console.log(this);
-    }
-    on(event, listener) {
-        return super.on(event, listener);
-    }
-    emit(event, ...args) {
-        return super.emit(event, ...args);
+        addEventListener("keydown", this.onKeyDown);
+        const exerciseIndex = +this.cookies.exercise || 0;
+        this.exercise = this.exercises[exerciseIndex];
+        const sentenceIndex = +this.cookies.sentence || 0;
+        this.sentence = this.exercise.sentences[sentenceIndex];
     }
     onKeyDown(event) {
         let preventDefault = true;
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === "Enter" || event.key === " ") {
             this.continue();
         }
-        else if (event.key === 'Backspace') {
+        else if (event.key === "Backspace") {
             this.cancel();
         }
-        else if (event.key === 'PageDown') {
+        else if (event.key === "PageDown") {
             this.exercise = this.exercise.next;
         }
-        else if (event.key === 'PageUp') {
+        else if (event.key === "PageUp") {
             this.exercise = this.exercise.previous;
         }
-        else if (event.key === 'ArrowDown') {
+        else if (event.key === "ArrowDown") {
             const nextSentence = this.sentence.next;
             this.exercise = nextSentence.exercise;
             this.sentence = nextSentence;
         }
-        else if (event.key === 'ArrowUp') {
+        else if (event.key === "ArrowUp") {
             const prevSentence = this.sentence.previous;
             this.exercise = prevSentence.exercise;
             this.sentence = prevSentence;
@@ -495,7 +1470,6 @@ class Session extends EventEmitter {
      * ou démarre une nouvelle phrase.
      */
     continue() {
-        console.info('continue');
         this.continueAvailable = false;
         if (this.letter.correct !== false) {
             const { exercise, sentence, word } = this;
@@ -513,7 +1487,7 @@ class Session extends EventEmitter {
             else {
                 console.info('error ("continue" not available)');
                 if (this.letter) {
-                    this.emit('error');
+                    this.emit("error");
                     this.letter.correct = false;
                     this.cancelAvailable = true;
                 }
@@ -539,12 +1513,11 @@ class Session extends EventEmitter {
         if (this.letter.correct !== false) {
             // S'assurer d'avoir un seul caractère
             character = character[0];
-            const { letter, word, sentence } = this;
-            console.log(letter);
+            const { letter, word } = this;
             if (letter.neutral && letter.character === character) {
                 letter.correct = true;
-                letter.firstTry = (letter.firstTry === null);
-                this.emit('letter-correct', letter);
+                letter.firstTry = letter.firstTry === null;
+                this.emit("letter-correct", letter);
                 if (word.neutral) {
                     this.letter = letter.next;
                 }
@@ -552,11 +1525,9 @@ class Session extends EventEmitter {
                     this.letter.focused = false;
                     this.continueAvailable = true;
                 }
-                console.info('correct');
             }
             else {
-                console.info('error');
-                this.emit('error');
+                this.emit("error");
                 letter.correct = false;
                 this.cancelAvailable = true;
             }
@@ -566,24 +1537,26 @@ class Session extends EventEmitter {
         return this.letter ? this.sentence.exercise : null;
     }
     set exercise(exercise) {
-        this.sentence = exercise.sentences[0];
-        this.advice = exercise.advice;
-        this.$.querySelector('header .exercise-number').innerHTML = `${exercise.id + 1}`;
-        this.$.querySelector('header .exercise-title').innerHTML = exercise.title;
-        this.$.querySelector('header .sentence-count').innerHTML = `${exercise.sentences.length}`;
-        this.cookies.exercise = exercise.index;
-        this.emit('exercise-changed', exercise);
+        if (exercise !== this.exercise) {
+            this.sentence = exercise.sentences[0];
+            this.advice = exercise.advice;
+            this.$.querySelector("header .exercise-number").innerHTML = `${exercise.id + 1}`;
+            this.$.querySelector("header .exercise-title").innerHTML = exercise.title;
+            this.$.querySelector("header .sentence-count").innerHTML =
+                `${exercise.sentences.length}`;
+            this.cookies.exercise = exercise.index;
+            this.emit("exercise-changed", exercise);
+        }
     }
     get sentence() {
         return this.letter ? this.word.sentence : null;
     }
     set sentence(sentence) {
+        console.info("set sentence to ", sentence.words.map(w => w.letters.map(l => l.character).join('')).join(' '));
         const previousSentence = this.sentence;
         if (previousSentence) {
-            console.log('reset');
-            // Reset
-            previousSentence.words.forEach(word => {
-                word.letters.forEach(letter => {
+            previousSentence.words.forEach((word) => {
+                word.letters.forEach((letter) => {
                     letter.firstTry = null;
                     letter.correct = null;
                 });
@@ -593,9 +1566,9 @@ class Session extends EventEmitter {
         this.$output.appendChild(sentence.$);
         sentence.updateClassList();
         this.word = sentence.words[0];
-        this.$.querySelector('header .sentence-number').innerHTML = `${sentence.id + 1}`;
+        this.$.querySelector("header .sentence-number").innerHTML = `${sentence.id + 1}`;
         this.cookies.sentence = sentence.index;
-        this.emit('sentence-changed');
+        this.emit("sentence-changed");
     }
     get word() {
         return this.letter ? this.letter.word : null;
@@ -615,602 +1588,46 @@ class Session extends EventEmitter {
         letter.focused = true;
     }
     set continueAvailable(available) {
-        const $info = this.$.querySelector('.press-space-info');
+        const $info = this.$.querySelector(".press-space-info");
         if (available)
-            $info.classList.add('visible');
+            $info.classList.add("visible");
         else
-            $info.classList.remove('visible');
+            $info.classList.remove("visible");
     }
     set cancelAvailable(available) {
-        const $info = this.$.querySelector('.press-back-info');
+        const $info = this.$.querySelector(".press-back-info");
         if (available)
-            $info.classList.add('visible');
+            $info.classList.add("visible");
         else
-            $info.classList.remove('visible');
+            $info.classList.remove("visible");
     }
     set advice(advice) {
-        this.$.querySelector('.advice').innerHTML = advice || '';
+        this.$.querySelector(".advice").innerHTML = advice || "";
     }
 }
-exports.default = Session;
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/***/ "./src/scripts/stats-handler.ts":
+/*!**************************************!*\
+  !*** ./src/scripts/stats-handler.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(8);
-const sentence_1 = __webpack_require__(5);
-class Exercise {
-    constructor(id, data, session) {
-        this.sentences = [];
-        this.id = id;
-        this.session = session;
-        this.title = data.title;
-        this.letters = data.letters;
-        this.advice = data.advice !== null ? this.session.data.advices[data.advice] : null;
-        data.sentences.forEach((text, id) => this.sentences.push(new sentence_1.default(id, text, this)));
-    }
-    get correct() {
-        const notCorrectSentence = this.sentences.find(sentence => !sentence.correct);
-        return notCorrectSentence ? notCorrectSentence.correct : true;
-    }
-    get next() {
-        return utils_1.getNext(this.session.exercises, this) || this.session.exercises[0];
-    }
-    get previous() {
-        return utils_1.getPrevious(this.session.exercises, this) || this.session.exercises[this.session.exercises.length - 1];
-    }
-    get index() {
-        return utils_1.getIndex(this.session.exercises, this);
-    }
-}
-exports.default = Exercise;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ StatsHandler)
+/* harmony export */ });
+/* harmony import */ var _event_emitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./event-emitter */ "./src/scripts/event-emitter.ts");
 
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class Keyboard {
-    constructor(session, variant = 'classic') {
-        this.Keys = [
-            [
-                { plain: "$", shift: "#", ctrl: "–", ctrlshift: " " },
-                { plain: "\"", shift: "1", ctrl: "—", ctrlshift: "„" },
-                { plain: "«", shift: "2", ctrl: "<", ctrlshift: "“" },
-                { plain: "»", shift: "3", ctrl: ">", ctrlshift: "”" },
-                { plain: "(", shift: "4", ctrl: "[", ctrlshift: "≤" },
-                { plain: ")", shift: "5", ctrl: "]", ctrlshift: "≥" },
-                { width: 1, variant: 'typematrix' },
-                { plain: "@", shift: "6", ctrl: " ", ctrlshift: " " },
-                { plain: "+", shift: "7", ctrl: " ", ctrlshift: " " },
-                { plain: "-", shift: "8", ctrl: " ", ctrlshift: " " },
-                { plain: "/", shift: "9", ctrl: " ", ctrlshift: " " },
-                { plain: "*", shift: "0", ctrl: " ", ctrlshift: " " },
-                { plain: "=", shift: "°", ctrl: " ", ctrlshift: " " },
-                { plain: "%", shift: "`", ctrl: " ", ctrlshift: " " },
-                { width: 0.67, variant: 'classic' }
-            ],
-            [
-                { width: 1, variant: 'typematrix' },
-                { width: 1.33, variant: 'classic' },
-                { plain: "b", shift: "B", ctrl: "|", ctrlshift: " " },
-                { plain: "é", shift: "É", ctrl: " ", ctrlshift: "˝" },
-                { plain: "p", shift: "P", ctrl: "&", ctrlshift: " " },
-                { plain: "o", shift: "O", ctrl: "œ", ctrlshift: "Œ" },
-                { plain: "è", shift: "È", ctrl: " ", ctrlshift: " " },
-                { width: 1, variant: 'typematrix' },
-                { plain: "^", shift: "!", ctrl: "¡", ctrlshift: " " },
-                { plain: "v", shift: "V", ctrl: " ", ctrlshift: " " },
-                { plain: "d", shift: "D", ctrl: " ", ctrlshift: " " },
-                { plain: "l", shift: "L", ctrl: " ", ctrlshift: " " },
-                { plain: "j", shift: "J", ctrl: " ", ctrlshift: " " },
-                { plain: "z", shift: "Z", ctrl: " ", ctrlshift: " " },
-                { plain: "w", shift: "W", ctrl: " ", ctrlshift: " " },
-                { width: 0.34, variant: 'classic' }
-            ],
-            [
-                { width: 1, variant: 'typematrix' },
-                { width: 1.66, variant: 'classic' },
-                { plain: "a", shift: "A", ctrl: "æ", ctrlshift: "Æ" },
-                { plain: "u", shift: "U", ctrl: "ù", ctrlshift: "Ù" },
-                { plain: "i", shift: "I", ctrl: "¨", ctrlshift: " " },
-                { plain: "e", shift: "E", ctrl: "€", ctrlshift: " " },
-                { plain: ",", shift: ";", ctrl: "’", ctrlshift: " " },
-                { width: 1, variant: 'typematrix' },
-                { plain: "c", shift: "C", ctrl: " ", ctrlshift: " " },
-                { plain: "t", shift: "T", ctrl: " ", ctrlshift: " " },
-                { plain: "s", shift: "S", ctrl: " ", ctrlshift: " " },
-                { plain: "r", shift: "R", ctrl: " ", ctrlshift: " " },
-                { plain: "n", shift: "N", ctrl: " ", ctrlshift: " " },
-                { plain: "m", shift: "M", ctrl: " ", ctrlshift: " " },
-                { plain: "ç", shift: "Ç", ctrl: " ", ctrlshift: " ", variant: 'classic' },
-                { width: 1, variant: 'typematrix' }
-            ],
-            [
-                { width: 1 },
-                { plain: "ê", shift: "Ê", ctrl: " ", ctrlshift: " ", variant: 'classic', dotted: true },
-                { plain: "à", shift: "À", ctrl: "\\", ctrlshift: " " },
-                { plain: "y", shift: "Y", ctrl: "{", ctrlshift: "‘" },
-                { plain: "x", shift: "X", ctrl: "}", ctrlshift: "’" },
-                { plain: ".", shift: ":", ctrl: "…", ctrlshift: "·" },
-                { plain: "k", shift: "K", ctrl: " ", ctrlshift: " " },
-                { width: 1, variant: 'typematrix' },
-                { plain: "'", shift: "?", ctrl: "¿", ctrlshift: " " },
-                { plain: "q", shift: "Q", ctrl: " ", ctrlshift: " " },
-                { plain: "g", shift: "G", ctrl: " ", ctrlshift: " " },
-                { plain: "h", shift: "H", ctrl: " ", ctrlshift: " " },
-                { plain: "f", shift: "F", ctrl: " ", ctrlshift: " " },
-                { plain: "ç", shift: "Ç", ctrl: " ", ctrlshift: " ", variant: 'typematrix' },
-                { width: 1.67, variant: 'classic' },
-                { width: 1, variant: 'typematrix' }
-            ]
-        ];
-        this.keys = [];
-        this.$ = document.querySelector('.keyboard');
-        this.$inputs = {
-            typematrix: this.$.querySelector('[name="keyboard"][value="typematrix"]'),
-            classic: this.$.querySelector('[name="keyboard"][value="classic"]'),
-            hidden: this.$.querySelector('[name="keyboard"][value="hidden"]')
-        };
-        this.session = session;
-        this.variant = variant;
-        this.hidden = this.session.cookies.keyboardHidden;
-        this.$inputs.typematrix.addEventListener('change', event => {
-            this.hidden = false;
-            this.variant = 'typematrix';
-        });
-        this.$inputs.classic.addEventListener('change', event => {
-            this.hidden = false;
-            this.variant = 'classic';
-        });
-        this.$inputs.hidden.addEventListener('change', event => this.hidden = !this.hidden);
-        this.Keys.forEach(line => {
-            const $line = document.createElement('div');
-            $line.className = 'line';
-            this.$.appendChild($line);
-            line.forEach(keyOrSpace => {
-                if (keyOrSpace.width !== undefined) {
-                    const space = keyOrSpace;
-                    const $space = document.createElement('div');
-                    $space.className = 'space';
-                    if (space.variant)
-                        $space.classList.add(space.variant);
-                    $space.style.flexGrow = `${space.width}`;
-                    $line.appendChild($space);
-                }
-                else if (keyOrSpace.plain !== undefined) {
-                    const key = keyOrSpace;
-                    key.$ = document.createElement('div');
-                    key.$.className = 'key';
-                    if (key.variant)
-                        key.$.classList.add(key.variant);
-                    key.ctrl = key.ctrl || '';
-                    key.shift = key.shift || '';
-                    key.ctrlshift = key.ctrlshift || '';
-                    key.chars = key.plain + key.ctrl + key.shift + key.ctrlshift;
-                    key.$.setAttribute('data-plain', key.plain);
-                    key.$.setAttribute('data-ctrl', key.ctrl);
-                    key.$.setAttribute('data-shift', key.shift);
-                    key.$.setAttribute('data-ctrlshift', key.ctrlshift);
-                    $line.appendChild(key.$);
-                    this.keys.push(key);
-                }
-            });
-        });
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Control' || event.key === 'AltGr') {
-                this.$.classList.add('ctrl');
-            }
-            if (event.key === 'Shift')
-                this.$.classList.add('shift');
-            this.keys.forEach(key => {
-                if (key.chars.includes(event.key) && event.key !== ' ')
-                    key.$.classList.add('down');
-            });
-        });
-        document.addEventListener('keyup', event => {
-            if (event.key === 'Control' || event.key === 'AltGr') {
-                this.$.classList.remove('ctrl');
-            }
-            if (event.key === 'Shift')
-                this.$.classList.remove('shift');
-            this.keys.forEach(key => {
-                if (key.chars.includes(event.key) && event.key !== ' ')
-                    key.$.classList.remove('down');
-            });
-        });
-        session.on('exercise-changed', exercise => {
-            let availableCharacters = '';
-            for (let i = 0; i < session.exercises.length; i++) {
-                if (session.exercises[i] !== exercise) {
-                    availableCharacters += session.exercises[i].letters;
-                }
-                else
-                    break;
-            }
-            this.highlight(exercise.letters, availableCharacters);
-        });
-    }
-    get hidden() {
-        return this.$.classList.contains('hidden');
-    }
-    set hidden(hidden) {
-        if (hidden)
-            this.$.classList.add('hidden');
-        else
-            this.$.classList.remove('hidden');
-        if (hidden) {
-            this.$inputs.typematrix.checked = false;
-            this.$inputs.classic.checked = false;
-            this.$inputs.hidden.checked = true;
-        }
-        else {
-            this.$inputs.hidden.checked = false;
-        }
-        this.session.cookies.keyboardHidden = hidden;
-    }
-    get variant() {
-        return this.$inputs.typematrix.checked ? 'typematrix' : 'classic';
-    }
-    set variant(variant) {
-        this.$inputs.typematrix.checked = false;
-        this.$inputs.classic.checked = false;
-        this.$inputs.hidden.checked = false;
-        this.$inputs[variant].checked = true;
-        this.$.classList.remove('typematrix', 'classic');
-        this.$.classList.add(variant);
-        this.session.cookies.keyboardVariant = variant;
-    }
-    highlight(characters, availableCharacters = '') {
-        this.keys.forEach(key => {
-            key.$.classList.remove('highlight', 'available');
-            for (let i = 0; i < availableCharacters.length; i++) {
-                if (key.chars.includes(availableCharacters[i])) {
-                    key.$.classList.add('available');
-                    break;
-                }
-            }
-            for (let i = 0; i < characters.length; i++) {
-                if (key.chars.includes(characters[i]) && characters[i] !== ' ') {
-                    key.$.classList.add('highlight', 'available');
-                }
-            }
-        });
-    }
-}
-exports.default = Keyboard;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(8);
-class Letter {
-    constructor(character, word) {
-        this._correct = null;
-        this.$ = document.createElement('span');
-        this.firstTry = null;
-        this.character = character;
-        this.word = word;
-        this.$.classList.add('letter', 'neutral');
-        this.$.appendChild(document.createTextNode(character));
-    }
-    get correct() {
-        return this._correct;
-    }
-    set correct(correct) {
-        if (correct === true) {
-            this.$.classList.remove('incorrect', 'neutral');
-            this.$.classList.add('correct');
-        }
-        else if (correct === false) {
-            this.$.classList.remove('correct', 'neutral');
-            this.$.classList.add('incorrect');
-        }
-        else {
-            this.$.classList.remove('correct', 'incorrect');
-            this.$.classList.add('neutral');
-        }
-        this._correct = correct;
-        this.word.updateClassList();
-    }
-    get neutral() {
-        return this._correct === null;
-    }
-    set neutral(neutral) {
-        if (!neutral)
-            throw "The attribute 'neutral' cannot be set to false; use 'correct' instead.";
-        this.correct = null;
-    }
-    get focused() {
-        return this.$.classList.contains('focused');
-    }
-    set focused(focused) {
-        if (focused)
-            this.$.classList.add('focused');
-        else
-            this.$.classList.remove('focused');
-        this.word.updateClassList();
-    }
-    get next() {
-        return utils_1.getNext(this.word.letters, this) || this.word.next.letters[0];
-    }
-    get previous() {
-        const previous = utils_1.getPrevious(this.word.letters, this);
-        if (previous) {
-            return previous;
-        }
-        else {
-            const letters = this.word.previous.letters;
-            return letters[letters.length - 1];
-        }
-    }
-}
-exports.default = Letter;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(8);
-const word_1 = __webpack_require__(6);
-class Sentence {
-    constructor(id, text, exercise) {
-        this.words = [];
-        this.$ = document.createElement('p');
-        this.id = id;
-        this.exercise = exercise;
-        this.$.classList.add('sentence');
-        const wordStrings = text.split(' ');
-        wordStrings.forEach((wordString, i) => {
-            const word = new word_1.default(wordString, this);
-            this.words.push(word);
-            this.$.appendChild(word.$);
-            if (i < wordStrings.length - 1) {
-                const $space = document.createElement('span');
-                $space.appendChild(document.createTextNode(' '));
-                $space.classList.add('space');
-                this.$.appendChild($space);
-            }
-        });
-    }
-    get correct() {
-        const notCorrectWord = this.words.find(word => !word.correct);
-        return notCorrectWord ? notCorrectWord.correct : true;
-    }
-    updateClassList() {
-        const correct = this.correct;
-        if (this.$.parentElement) {
-            if (correct === true) {
-                this.$.parentElement.classList.add('correct');
-            }
-            else {
-                this.$.parentElement.classList.remove('correct');
-            }
-        }
-    }
-    get next() {
-        return utils_1.getNext(this.exercise.sentences, this) || this.exercise.next.sentences[0];
-    }
-    get previous() {
-        const previous = utils_1.getPrevious(this.exercise.sentences, this);
-        if (previous) {
-            return previous;
-        }
-        else {
-            const sentences = this.exercise.previous.sentences;
-            return sentences[sentences.length - 1];
-        }
-    }
-    get index() {
-        return utils_1.getIndex(this.exercise.sentences, this);
-    }
-}
-exports.default = Sentence;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(8);
-const letter_1 = __webpack_require__(4);
-class Word {
-    constructor(text, sentence) {
-        this.$ = document.createElement('span');
-        this.letters = [];
-        this.sentence = sentence;
-        this.text = text;
-        this.$.classList.add('word', 'neutral');
-        for (let i = 0; i < text.length; i++) {
-            const letter = new letter_1.default(text[i], this);
-            this.letters.push(letter);
-            this.$.appendChild(letter.$);
-        }
-    }
-    get correct() {
-        const notCorrectLetter = this.letters.find(letter => !letter.correct);
-        return notCorrectLetter ? notCorrectLetter.correct : true;
-    }
-    get focused() {
-        return this.sentence.exercise.session.word === this;
-    }
-    updateClassList() {
-        const correct = this.correct;
-        if (correct === true) {
-            this.$.classList.remove('incorrect', 'neutral');
-            this.$.classList.add('correct');
-            this.sentence.updateClassList();
-        }
-        else if (correct === false) {
-            this.$.classList.remove('correct', 'neutral');
-            this.$.classList.add('incorrect');
-            this.sentence.updateClassList();
-        }
-        else {
-            this.$.classList.remove('correct', 'incorrect');
-            this.$.classList.add('neutral');
-        }
-        if (this.focused)
-            this.$.classList.add('focused');
-        else
-            this.$.classList.remove('focused');
-    }
-    get neutral() {
-        return this.correct === null;
-    }
-    set neutral(neutral) {
-        if (!neutral)
-            throw "The attribute 'neutral' cannot be set to false; use 'correct' instead.";
-        this.letters.forEach(letter => letter.neutral = true);
-    }
-    get next() {
-        return utils_1.getNext(this.sentence.words, this) || this.sentence.next.words[0];
-    }
-    get previous() {
-        const previous = utils_1.getPrevious(this.sentence.words, this);
-        if (previous) {
-            return previous;
-        }
-        else {
-            const words = this.sentence.previous.words;
-            return words[words.length - 1];
-        }
-    }
-}
-exports.default = Word;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__data___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__data__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__session__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__session__);
-
-
-
-const session = new __WEBPACK_IMPORTED_MODULE_1__session___default.a
-
-// Ajout des écouteurs
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function getPrevious(collection, item) {
-    let previousItem;
-    for (let i = 0; i < collection.length; i++) {
-        if (item === collection[i]) {
-            if (i - 1 >= 0) {
-                previousItem = collection[i - 1];
-            }
-            break;
-        }
-    }
-    return previousItem;
-}
-exports.getPrevious = getPrevious;
-function getNext(collection, item) {
-    let nextItem;
-    for (let i = 0; i < collection.length; i++) {
-        if (item === collection[i]) {
-            if (i + 1 < collection.length) {
-                nextItem = collection[i + 1];
-            }
-            break;
-        }
-    }
-    return nextItem;
-}
-exports.getNext = getNext;
-function getIndex(collection, item) {
-    for (let i = 0; i < collection.length; i++) {
-        if (item === collection[i])
-            return i;
-    }
-    return null;
-}
-exports.getIndex = getIndex;
-class CookiesHandler {
-    constructor() {
-        this.load();
-        window.addEventListener('unload', event => {
-            this.save();
-        });
-    }
-    load() {
-        let data;
-        try {
-            data = JSON.parse(document.cookie);
-            if (typeof data !== 'object')
-                throw new Error;
-        }
-        catch (e) {
-            data = {};
-        }
-        this.cookies = data;
-    }
-    save() {
-        document.cookie = JSON.stringify(this.cookies);
-    }
-    reset() {
-        this.cookies = {};
-        this.save();
-    }
-    static get instance() {
-        if (!CookiesHandler._instance)
-            CookiesHandler._instance = new CookiesHandler;
-        return CookiesHandler._instance;
-    }
-}
-exports.CookiesHandler = CookiesHandler;
-console.log(CookiesHandler.instance);
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const EventEmitter = __webpack_require__(10);
-class Logger extends EventEmitter {
+class Logger extends _event_emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor() {
         super();
         this.lastKeyLogTime = 0;
         this.correctLetters = 0;
         this.errors = 0;
         this.count = 0;
-        this.average = null;
     }
     logCorrectInput(letter) {
         console.log(letter);
@@ -1218,7 +1635,7 @@ class Logger extends EventEmitter {
             this.correctLetters++;
         let count = this.count;
         let average = this.average;
-        const now = +new Date;
+        const now = +new Date();
         const interval = now - this.lastKeyLogTime;
         if (interval < Logger.MaxInterval) {
             count++;
@@ -1232,9 +1649,9 @@ class Logger extends EventEmitter {
             this.count = count;
         }
         if (this.stopFunction !== null)
-            clearTimeout(this.stopFunction);
-        this.emit('running');
-        this.stopFunction = setTimeout(e => this.emit('paused'), Logger.MaxInterval);
+            window.clearTimeout(this.stopFunction);
+        this.emit("running");
+        this.stopFunction = window.setTimeout(() => this.emit("paused"), Logger.MaxInterval);
         this.lastKeyLogTime = now;
     }
     logError() {
@@ -1252,32 +1669,31 @@ class Logger extends EventEmitter {
      */
     pause() {
         this.lastKeyLogTime = 0;
-        this.emit('paused');
+        this.emit("paused");
     }
 }
 Logger.MaxInterval = 5000;
 class StatsHandler {
     constructor(session) {
         this.maxCharacterInterval = 5;
-        this.$ = document.querySelector('.stats');
-        this.$success = this.$.querySelector('.success output');
-        this.$errors = this.$.querySelector('.errors output');
-        this.$speed = this.$.querySelector('.speed output');
-        this.characterCount = 0;
-        this.logger = new Logger;
+        this.$ = document.querySelector(".stats");
+        this.$success = this.$.querySelector(".success output");
+        this.$errors = this.$.querySelector(".errors output");
+        this.$speed = this.$.querySelector(".speed output");
+        this.logger = new Logger();
         this.session = session;
         this.updateUI();
         this.createListeners();
     }
     createListeners() {
-        this.logger.on('running', e => this.$speed.classList.remove('paused'));
-        this.logger.on('paused', e => this.$speed.classList.add('paused'));
-        this.session.on('sentence-done', e => this.logger.pause());
-        this.session.on('letter-correct', letter => {
+        this.logger.on("running", () => this.$speed.classList.remove("paused"));
+        this.logger.on("paused", () => this.$speed.classList.add("paused"));
+        this.session.on("sentence-done", () => this.logger.pause());
+        this.session.on("letter-correct", (letter) => {
             this.logger.logCorrectInput(letter);
             this.updateUI();
         });
-        this.session.on('error', e => {
+        this.session.on("error", () => {
             this.logger.logError();
             this.updateUI();
         });
@@ -1288,317 +1704,256 @@ class StatsHandler {
         this.$speed.innerHTML = this.logger.charactersPerSecond.toFixed(2);
     }
 }
-exports.default = StatsHandler;
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports) {
 
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
+/***/ "./src/scripts/utils.ts":
+/*!******************************!*\
+  !*** ./src/scripts/utils.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CookiesHandler": () => (/* binding */ CookiesHandler),
+/* harmony export */   "getIndex": () => (/* binding */ getIndex),
+/* harmony export */   "getNext": () => (/* binding */ getNext),
+/* harmony export */   "getPrevious": () => (/* binding */ getPrevious)
+/* harmony export */ });
+function getPrevious(collection, item) {
+    let previousItem;
+    for (let i = 0; i < collection.length; i++) {
+        if (item === collection[i]) {
+            if (i - 1 >= 0) {
+                previousItem = collection[i - 1];
+            }
+            break;
+        }
+    }
+    return previousItem;
 }
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      } else {
-        // At least give some kind of context to the user
-        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-        err.context = er;
-        throw err;
-      }
+function getNext(collection, item) {
+    let nextItem;
+    for (let i = 0; i < collection.length; i++) {
+        if (item === collection[i]) {
+            if (i + 1 < collection.length) {
+                nextItem = collection[i + 1];
+            }
+            break;
+        }
     }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        args = Array.prototype.slice.call(arguments, 1);
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    args = Array.prototype.slice.call(arguments, 1);
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else if (listeners) {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.prototype.listenerCount = function(type) {
-  if (this._events) {
-    var evlistener = this._events[type];
-
-    if (isFunction(evlistener))
-      return 1;
-    else if (evlistener)
-      return evlistener.length;
-  }
-  return 0;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  return emitter.listenerCount(type);
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
+    return nextItem;
 }
-
-function isNumber(arg) {
-  return typeof arg === 'number';
+function getIndex(collection, item) {
+    for (let i = 0; i < collection.length; i++) {
+        if (item === collection[i])
+            return i;
+    }
+    return null;
 }
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+class CookiesHandler {
+    constructor() {
+        this.load();
+        window.addEventListener("unload", () => {
+            this.save();
+        });
+    }
+    load() {
+        let data;
+        try {
+            data = JSON.parse(document.cookie);
+            if (typeof data !== "object")
+                throw new Error();
+        }
+        catch (_e) {
+            data = {};
+        }
+        this.cookies = data;
+    }
+    save() {
+        document.cookie = JSON.stringify(this.cookies);
+    }
+    reset() {
+        this.cookies = {};
+        this.save();
+    }
+    static get instance() {
+        if (!CookiesHandler._instance) {
+            CookiesHandler._instance = new CookiesHandler();
+        }
+        return CookiesHandler._instance;
+    }
 }
+console.log(CookiesHandler.instance);
 
-function isUndefined(arg) {
-  return arg === void 0;
+
+/***/ }),
+
+/***/ "./src/scripts/word.ts":
+/*!*****************************!*\
+  !*** ./src/scripts/word.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Word)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.ts");
+/* harmony import */ var _letter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./letter */ "./src/scripts/letter.ts");
+
+
+class Word {
+    constructor(text, sentence) {
+        this.$ = document.createElement("span");
+        this.letters = [];
+        this.sentence = sentence;
+        this.text = text;
+        this.$.classList.add("word", "neutral");
+        for (let i = 0; i < text.length; i++) {
+            const letter = new _letter__WEBPACK_IMPORTED_MODULE_1__["default"](text[i], this);
+            this.letters.push(letter);
+            this.$.appendChild(letter.$);
+        }
+    }
+    get correct() {
+        const notCorrectLetter = this.letters.find((letter) => !letter.correct);
+        return notCorrectLetter ? notCorrectLetter.correct : true;
+    }
+    get focused() {
+        return this.sentence.exercise.session.word === this;
+    }
+    updateClassList() {
+        const correct = this.correct;
+        if (correct === true) {
+            this.$.classList.remove("incorrect", "neutral");
+            this.$.classList.add("correct");
+            this.sentence.updateClassList();
+        }
+        else if (correct === false) {
+            this.$.classList.remove("correct", "neutral");
+            this.$.classList.add("incorrect");
+            this.sentence.updateClassList();
+        }
+        else {
+            this.$.classList.remove("correct", "incorrect");
+            this.$.classList.add("neutral");
+        }
+        if (this.focused)
+            this.$.classList.add("focused");
+        else
+            this.$.classList.remove("focused");
+    }
+    get neutral() {
+        return this.correct === null;
+    }
+    set neutral(neutral) {
+        if (!neutral) {
+            throw "The attribute 'neutral' cannot be set to false; use 'correct' instead.";
+        }
+        this.letters.forEach((letter) => letter.neutral = true);
+    }
+    get next() {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getNext)(this.sentence.words, this) || this.sentence.next.words[0];
+    }
+    get previous() {
+        const previous = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getPrevious)(this.sentence.words, this);
+        if (previous) {
+            return previous;
+        }
+        else {
+            const words = this.sentence.previous.words;
+            return words[words.length - 1];
+        }
+    }
 }
 
 
 /***/ })
-/******/ ]);
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!*****************************!*\
+  !*** ./src/scripts/main.js ***!
+  \*****************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _session__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./session */ "./src/scripts/session.ts");
+
+
+new _session__WEBPACK_IMPORTED_MODULE_0__["default"]();
+
+})();
+
+/******/ })()
+;
 //# sourceMappingURL=bundle.js.map

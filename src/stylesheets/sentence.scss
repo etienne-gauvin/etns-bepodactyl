@@ -38,7 +38,7 @@
 		.word {
 			transition: 50ms linear;
 			background-color: rgba(white, 0);
-			outline: 2px solid rgba(white, 0);
+			outline: 5px solid rgba(white, 0);
 			position: relative;
 
 			@keyframes incorrect-feedback {
@@ -69,6 +69,8 @@
 
 			.letter {
 				position: relative;
+				z-index: 2;
+				outline: 3px solid transparent;
 
 				@keyframes correct-letter-feedback {
 					from { opacity: 1; top: -1.2rem }
@@ -108,6 +110,7 @@
 				background-color: $yellow;
 				outline-color: $yellow;
 				border-radius: 0.5em;
+				z-index: 1;
 
 				@keyframes letter-focused-blink {
 					from { background-color: $yellow }

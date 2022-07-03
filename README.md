@@ -4,7 +4,8 @@ Exercices d’entrainement à l’utilisation de la disposition bépo.
 
 Fork de 'bepodactyl' de https://github.com/tazzon/dactylotest
 
-Cette version est réécrite en TypeScript et a une nouvelle interface, et des retours visuels plus _juicy_.
+Cette version est réécrite en TypeScript et a une nouvelle interface, et des
+retours visuels plus _juicy_.
 
 Elle est accessible ici : http://etienne.gauvin.info/etns-bepodactyl/
 

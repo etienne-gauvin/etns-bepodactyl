@@ -1,107 +1,76 @@
-import { getPrevious, getNext, getIndex } from './utils'
-import Session from './session'
-import Word from './word'
-import InputError from './input-error'
-import Status from './status'
-import Letter from './letter'
-import Exercise from './exercise'
+import { getIndex, getNext, getPrevious } from "./utils";
+import Word from "./word";
+import Exercise from "./exercise";
 
 export default class Sentence {
+  public readonly id: number;
 
-	public readonly id: number
+  public readonly exercise: Exercise;
 
-	public readonly exercise: Exercise
+  public readonly words: Word[] = [];
 
-	public readonly words: Array<Word> = []
+  public readonly $: Element = document.createElement("p");
 
-	public readonly $: Element = document.createElement('p')
+  public constructor(id: number, text: string, exercise: Exercise) {
+    this.id = id;
 
-	public constructor(id: number, text: string, exercise: Exercise) {
+    this.exercise = exercise;
 
-		this.id = id
+    this.$.classList.add("sentence");
 
-		this.exercise = exercise
-		
-		this.$.classList.add('sentence')
+    const wordStrings = text.split(" ");
 
-		const wordStrings = text.split(' ')
-		
-		wordStrings.forEach((wordString, i) => {
+    wordStrings.forEach((wordString, i) => {
+      const word = new Word(wordString, this);
+      this.words.push(word);
+      this.$.appendChild(word.$);
 
-			const word = new Word(wordString, this)
-			this.words.push(word)
-			this.$.appendChild(word.$)
+      if (i < wordStrings.length - 1) {
+        const $space = document.createElement("span");
+        $space.appendChild(document.createTextNode(" "));
+        $space.classList.add("space");
 
-			if (i < wordStrings.length - 1) {
+        this.$.appendChild($space);
+      }
+    });
+  }
 
-				const $space = document.createElement('span')
-				$space.appendChild(document.createTextNode(' '))
-				$space.classList.add('space')
+  public get correct(): boolean | null {
+    const notCorrectWord = this.words.find((word) => !word.correct);
 
-				this.$.appendChild($space)
+    return notCorrectWord ? notCorrectWord.correct : true;
+  }
 
-			}
-			
-		})
-		
-	}
+  public updateClassList() {
+    const correct = this.correct;
 
-	public get correct(): boolean|null {
-		
-		const notCorrectWord = this.words.find(word => ! word.correct)
+    if (this.$.parentElement) {
+      if (correct === true) {
+        this.$.parentElement.classList.add("correct");
+      } else {
+        this.$.parentElement.classList.remove("correct");
+      }
+    }
+  }
 
-		return notCorrectWord ? notCorrectWord.correct : true
-		
-	}
-	
-	public updateClassList() {
+  public get next(): Sentence {
+    return getNext(this.exercise.sentences, this) ||
+      this.exercise.next.sentences[0];
+  }
 
-		const correct = this.correct
+  public get previous(): Sentence {
+    const previous = getPrevious(this.exercise.sentences, this);
 
-		if (this.$.parentElement) {
+    if (previous) {
+      return previous;
+    } else {
+      const sentences = this.exercise.previous.sentences;
 
-			if (correct === true) {
+      return sentences[sentences.length - 1];
+    }
+  }
 
-				this.$.parentElement.classList.add('correct')
-
-			} else {
-
-				this.$.parentElement.classList.remove('correct')
-
-			}
-
-		}
-
-	}
-	
-	public get next(): Sentence {
-
-		return getNext(this.exercise.sentences, this) || this.exercise.next.sentences[0]
-
-	}
-
-	public get previous(): Sentence {
-
-		const previous = getPrevious(this.exercise.sentences, this)
-
-		if (previous) {
-
-			return previous
-
-		} else {
-
-			const sentences = this.exercise.previous.sentences
-
-			return sentences[sentences.length - 1]
-			
-		}
-
-	}
-
-	public get index(): number {
-
-		return getIndex(this.exercise.sentences, this)
-
-	}
-
+  public get index(): number {
+    return getIndex(this.exercise.sentences, this);
+  }
 }

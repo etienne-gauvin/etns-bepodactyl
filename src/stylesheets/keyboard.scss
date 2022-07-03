@@ -22,19 +22,19 @@
 					border-radius: 2px;
 					transition: 50ms linear;
 
-					background-color: $main-ll;
-					color: $main-dd;
+					background-color: $main-l2;
+					color: $main-d2;
 				}
 
 				&:not(:checked):focus + span,
 				&:not(:checked) + span:hover {
-					background-color: $main-lll;
-					color: $main-dddd;
+					background-color: $main-l3;
+					color: $main-d4;
 				}
 
 				&:checked + span {
-					background-color: $main-llll;
-					color: $main-dddd;
+					background-color: $main-l4;
+					color: $main-d4;
 				}
 			}
 		}
@@ -63,9 +63,9 @@
 			position: relative;
 			top: 0px;
 
-			box-shadow: 0px 1px 0px 2px $main-d;
-			background-color: $main-l;
-			color: $main-ddd;
+			// box-shadow: 0px 1px 0px 2px $main-d1;
+			// background-color: $main-l1;
+			// color: $main-d1;
 
 			transition: 400ms ease-in-out;
 
@@ -74,21 +74,21 @@
 			}
 
 			&.available {
-				background-color: $main-ll;
-				box-shadow: 0px 1px 0px 2px $main-dd;
-				color: $main-ddd;
+				background-color: $main-l3;
+				box-shadow: 0px 1px 0px 2px $main-d2;
+				color: $main-d3;
 			}
 
 			&.highlight {
-				box-shadow: 0px 1px 0px 2px $yellow-d;
-				background-color: $yellow;
+				box-shadow: 0px 1px 0px 2px $yellow-dd;
+				background-color: $yellow-ll;
 				color: $yellow-dd;
 			}
 
 			&:not(.available):not(.highlight) {
 				background-color: $main;
-				box-shadow: 0px 1px 0px 2px $main-d;
-				color: $main-dd;
+				box-shadow: 0px 1px 0px 2px $main-d1;
+				color: $main-d1;
 			}
 
 			&.down {
@@ -96,12 +96,12 @@
 
 				transition-duration: 0ms;
 
-				box-shadow: 0px -1px 0px 2px $main-d;
+				box-shadow: 0px -1px 0px 2px $main-d1;
 
 				&.available {
-					background-color: $main-ll;
-					box-shadow: 0px -1px 0px 2px $main-dd;
-					color: $main-ddddd;
+					background-color: $main-l2;
+					box-shadow: 0px -1px 0px 2px $main-d2;
+					color: $main-d5;
 				}
 
 				&.highlight {
@@ -111,9 +111,9 @@
 				}
 
 				&:not(.available):not(.highlight) {
-					background-color: $main-l;
-					box-shadow: 0px -1px 0px 2px $main-dd;
-					color: $main-dddd;
+					background-color: $main-l1;
+					box-shadow: 0px -1px 0px 2px $main-d2;
+					color: $main-d4;
 				}
 			}
 		}
