@@ -2,11 +2,11 @@
 
 Exercices d’entrainement à l’utilisation de la disposition bépo.
 
-Fork de 'bepodactyl' de https://github.com/tazzon/dactylotest
+_Fork_ de 'bepodactyl' de [github.com/tazzon/dactylotest](https://github.com/tazzon/dactylotest)
 
 Cette version est réécrite en TypeScript et a une nouvelle interface, et des
 retours visuels plus _juicy_.
 
-Elle est accessible ici : http://etienne.gauvin.info/etns-bepodactyl/
+Elle est accessible ici : [etn406.github.io/etns-bepodactyl](https://etn406.github.io/etns-bepodactyl/)
 
-![image](https://user-images.githubusercontent.com/1438257/177002810-8793d24f-ae4f-4aee-b96e-a8a5f29f9c50.png)
+<img width="573" alt="illustration" src="https://user-images.githubusercontent.com/1438257/190167602-67812791-5a25-4649-85aa-e336078db14a.png">
