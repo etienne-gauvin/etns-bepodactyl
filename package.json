@@ -5,7 +5,7 @@
   "main": "bundle.js",
   "devDependencies": {
     "@types/node": "^7.0.13",
-    "babelify": "^7.3.0",
+    "babelify": "^10.0.0",
     "concurrently": "^3.4.0",
     "http-server": "^14.1.1",
     "sass": "^1.53.0",
